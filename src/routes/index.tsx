@@ -20,6 +20,7 @@ const FeedbacksPage = lazy(() => import("../pages/FeedbacksPage"))
 const CommentsPage = lazy(() => import("../pages/CommentsPage"))
 const LoginPage = lazy(() => import("../pages/LoginPage"))
 const SourceCreatePage = lazy(() => import("../pages/SourcePage/SourceCreatePage"))
+const SourceEditPage = lazy(() => import("../pages/SourcePage/SourceEditPage"))
 
 const routes: RouteObject[] = [
     {
@@ -51,6 +52,14 @@ const routes: RouteObject[] = [
         element: (
             <ProtectedRoute>
                 <SourceCreatePage />
+            </ProtectedRoute>        
+        )
+    },
+    {
+        path: "/sources/:id",
+        element: (
+            <ProtectedRoute>
+                <SourceEditPage />
             </ProtectedRoute>        
         )
     },

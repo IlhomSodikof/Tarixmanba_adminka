@@ -1,29 +1,39 @@
-import { Autocomplete, TextField } from "@mui/material"
-import { useState } from "react"
+import { TextField } from "@mui/material"
+import { ChangeEvent, useState } from "react"
 
 interface props {
-    options: string[],
-    placeholder: string,
-    updateValue: (e: string) => void
+    updateValue: (e: string) => void,
+    type?: string,
+    fullWidth?: boolean,
+    placeholder?: string,
+    defaultValue?: string | number
 }
 
-const UIInput: React.FC<props> = ({options, placeholder, updateValue}) => {
-    const [value, setValue] = useState<string>("")
+const UIInput: React.FC<props> = ({updateValue, type="text", fullWidth=true, placeholder, defaultValue}) => {
+    const [value, setValue] = useState<string | number>(defaultValue || "")
 
-    const handleInput = (e: any) => {
+    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault()
+        console.log(e.target.value);
         setValue(e.target.value)
-
+        updateValue(e.target.value)
     }
-
     return (
-        <Autocomplete
-            inputValue={value}
-            onChange={handleInput}
-            options={options}
-            id="disable-clearable"
-            disableClearable
+        <TextField
+            type={type} 
+            defaultValue={value}
+            required
+            placeholder={placeholder}
+            id="outlined-basic" 
+            variant="outlined" 
+            onChange={handleInput} 
+            value={value} 
             size="small"
-            renderInput={params => (<TextField placeholder={placeholder} {...params} />)}
+            sx={{
+                width: fullWidth ? "100%" : "80px",
+                minWidth: "80px"
+            }}
+            fullWidth={fullWidth}
         />
     )
 }

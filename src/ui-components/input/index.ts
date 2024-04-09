@@ -1,3 +1,4 @@
 export * from "./file"
-export * from "./select"
-export {default} from "./input"
+export * from "./input"
+export * from "./tinymce"
+export {default} from "./select"

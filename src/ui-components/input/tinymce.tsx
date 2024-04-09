@@ -27,7 +27,7 @@ export const UITinyMCE: React.FC<props> = ({updateMCE}) => {
                     ai_request: ({request, respondWith}: {request: any, respondWith: any}) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
                 }}
                 initialValue=""
-                onEditorChange={(a:string, editor: any) => update(a)}
+                onEditorChange={(a:string, _editor: any) => update(a)}
             />
         </Suspense>
     );

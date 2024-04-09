@@ -1,19 +1,16 @@
+// mui
 import { TableCell, TableRow, Typography } from "@mui/material"
-import { CustomBox, CustomTableCell } from "./custom.style"
 import { MoreHoriz } from "@mui/icons-material"
-import PopperModal from "./popperModal"
+// custom style
+import { CustomBox, CustomTableCell } from "./custom.style"
+// react
 import { useState } from "react"
+// components
+import PopperModal from "./popperModal"
+// types
+import { TableCellsProps } from "../../../types/source"
 
-interface props {
-    info: {
-        category: string,
-        title: string,
-        created: Date,
-        updated: Date
-    }
-}
-
-const TableCells: React.FC<props> = ({info}) => {
+const TableCells: React.FC<TableCellsProps> = ({info}) => {
     const [open, setOpen] = useState<HTMLElement | null>(null)
     const [hover, setHover] = useState<boolean>(false)
 

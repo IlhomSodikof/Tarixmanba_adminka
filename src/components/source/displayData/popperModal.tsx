@@ -1,14 +1,13 @@
+// mui
 import { Box, Button, Paper } from "@mui/material"
-import { CustomPopper } from "./custom.style"
+// react
 import { Link } from "react-router-dom";
+// custom styles
+import { CustomPopper } from "./custom.style"
+// types
+import { PopperModalProps } from "../../../types/source";
 
-interface props {
-    open: HTMLElement | null,
-    info: any,
-    changeOpen: (e: any) => void
-}
-
-const PopperModal: React.FC<props> = ({open, info, changeOpen}) => {
+const PopperModal: React.FC<PopperModalProps> = ({open, info, changeOpen}) => {
     const handleDelete = () => {
         console.log(info.category);
     }

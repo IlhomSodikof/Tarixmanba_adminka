@@ -11,7 +11,6 @@ const UIFile: React.FC<props> = ({fileChange}) => {
         fileChange(e.target.files)
         setFile(e.target.files)
         console.log(e.target.files && e.target.files[0]);
-        
     }
     
     return (

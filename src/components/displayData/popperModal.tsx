@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 // custom styles
 import { CustomPopper } from "./custom.style"
 // types
-import { PopperModalProps } from "../../../types/source";
+import { PopperModalProps } from "../../types/source";
 
 const PopperModal: React.FC<PopperModalProps> = ({open, info, changeOpen}) => {
     const handleDelete = () => {
@@ -32,7 +32,7 @@ const PopperModal: React.FC<PopperModalProps> = ({open, info, changeOpen}) => {
                 }}
             >
                 <Button variant="outlined">
-                    <Link to={`${info.title.split(" ").join("-")}`} state={info}>Edit</Link>
+                    <Link to={`edit/${info.title.toLowerCase().split(" ").join("-")}`} state={info}>Edit</Link>
                 </Button>
                 <Button variant="outlined" color="error" onClick={handleDelete}>Delete</Button>
             </CustomPopper>

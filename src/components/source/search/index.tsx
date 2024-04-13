@@ -1,9 +1,20 @@
 import { Box, Button, Stack, TextField, Typography } from "@mui/material"
 import { Link } from "react-router-dom"
-import { useState } from "react"
+import { ChangeEvent, useState } from "react"
+import UIButton from "../../../ui-components/button"
 
-const Search: React.FC = () => {
-    const [search, _setSearch] = useState<string>("")
+interface props {
+    updateSearch: (e: string) => void
+}
+
+const Search: React.FC<props> = ({updateSearch}) => {
+    const [search, setSearch] = useState<string>("")
+    
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        updateSearch(e.target.value)
+        setSearch(e.target.value)
+    }
+
     return (
         <Stack
             direction={"row"}
@@ -14,15 +25,17 @@ const Search: React.FC = () => {
                 <Typography><span style={{color: "red"}}>*</span> Search source</Typography>
                 <TextField 
                     value={search}
+                    onChange={handleChange}
                     size="small" 
                     autoComplete="" 
                     required 
                     sx={{maxWidth: "400px", width: "100%"}} 
                 />
             </Box>
-            <Button variant="contained">
-                <Link to={"create"}>Create</Link>
-            </Button>
+            <UIButton 
+                text="Create"
+                to="create"
+            />
         </Stack>
     )
 }

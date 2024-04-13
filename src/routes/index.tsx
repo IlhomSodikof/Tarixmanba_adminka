@@ -21,6 +21,8 @@ const CommentsPage = lazy(() => import("../pages/CommentsPage"))
 const LoginPage = lazy(() => import("../pages/LoginPage"))
 const SourceCreatePage = lazy(() => import("../pages/SourcePage/SourceCreatePage"))
 const SourceEditPage = lazy(() => import("../pages/SourcePage/SourceEditPage"))
+const LibraryCategoriesCreatePage = lazy(() => import("../pages/LibraryCategoriesPage/LibraryCategoriesCreatePage"))
+const LibraryCategoriesEditPage = lazy(() => import("../pages/LibraryCategoriesPage/LibraryCategoriesEditPage"))
 
 const routes: RouteObject[] = [
     {
@@ -56,7 +58,7 @@ const routes: RouteObject[] = [
         )
     },
     {
-        path: "/sources/:id",
+        path: "/sources/edit/:id",
         element: (
             <ProtectedRoute>
                 <SourceEditPage />
@@ -84,6 +86,22 @@ const routes: RouteObject[] = [
         element: (
             <ProtectedRoute>
                 <LibraryCategoriesPage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/library-categories/create",
+        element: (
+            <ProtectedRoute>
+                <LibraryCategoriesCreatePage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/library-categories/edit/:id",
+        element: (
+            <ProtectedRoute>
+                <LibraryCategoriesEditPage />
             </ProtectedRoute>
         )
     },

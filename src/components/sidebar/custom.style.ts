@@ -1,4 +1,4 @@
-import { AppBar, styled } from "@mui/material";
+import { AppBar, Box, styled } from "@mui/material";
 
 export const CustomAppBar = styled(AppBar)(({theme}) => ({
     position: "sticky",
@@ -6,4 +6,13 @@ export const CustomAppBar = styled(AppBar)(({theme}) => ({
     backgroundColor: theme.palette.primary.dark,
     transition: ".4s ease",
     overflow: "hidden"
+}))
+
+export const CustomLogoutBox = styled(Box)(({theme}) => ({
+    position: "absolute",
+    bottom: "30px",
+    margin: "0 auto",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center"
 }))

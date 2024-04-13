@@ -1,9 +1,6 @@
 import { Box, Popper, TableCell, styled } from "@mui/material";
 
 export const CustomTableCell = styled(TableCell)(() => ({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center"
 }))
 
 export const CustomBox = styled(Box)(({theme}) => ({

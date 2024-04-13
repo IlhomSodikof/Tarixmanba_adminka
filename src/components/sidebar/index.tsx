@@ -1,5 +1,7 @@
+import { Button, Typography } from "@mui/material";
+import LogoutIcon from '@mui/icons-material/Logout';
 import UILink from "../../ui-components/link";
-import { CustomAppBar } from './custom.style';
+import { CustomAppBar, CustomLogoutBox } from './custom.style';
 import { links } from './link';
 
 interface props {
@@ -27,6 +29,14 @@ const Sidebar: React.FC<props> = ({active}) => {
             }}    
         >
             {linksResult}
+            <CustomLogoutBox>
+                <Button variant="contained" fullWidth sx={{
+                    margin: "0 20px"
+                }}>
+                    <Typography>Log Out </Typography>
+                    <LogoutIcon />
+                </Button>
+            </CustomLogoutBox>
         </CustomAppBar>
     )
 }

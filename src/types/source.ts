@@ -5,25 +5,11 @@ export interface DisplayDataProps {
     updated: Date
 }
 
-export interface DisplayDataHeaders {
-    text: string, 
-    space: number
-}
-
 export interface PopperModalProps {
     open: HTMLElement | null,
     info: any,
     changeOpen: (e: any) => void
 }
-
-export interface TableCellsProps {
-    info: {
-        category: string,
-        title: string,
-        created: Date,
-        updated: Date
-    }
-} 
 
 export interface CreateSourceAttributes {
     title: string,

@@ -7,10 +7,8 @@ import { CustomBox, CustomTableCell } from "./custom.style"
 import { useState } from "react"
 // components
 import PopperModal from "./popperModal"
-// types
-import { TableCellsProps } from "../../../types/source"
 
-const TableCells: React.FC<TableCellsProps> = ({info}) => {
+const TableCells: React.FC<{info: any}> = ({info}) => {
     const [open, setOpen] = useState<HTMLElement | null>(null)
     const [hover, setHover] = useState<boolean>(false)
 
@@ -18,20 +16,36 @@ const TableCells: React.FC<TableCellsProps> = ({info}) => {
         setOpen(open ? null : event.currentTarget);
     };
 
+    const keys = Object.keys(info)
+
+    const arr = keys.slice(1, keys.length - 2)
+
+    const arrTime = keys.slice(keys.length - 2)
+
+    const cells = arr.map(key => {
+        return (
+            <TableCell key={key} sx={{
+                height: "100%"
+            }}>
+                <Typography>{info[key]}</Typography>
+            </TableCell>
+        )
+    })
+
+    const cellsTime = arrTime.map((time: string) => {
+        return (
+            <TableCell key={time} sx={{
+                height: "100%"
+            }}>
+                <Typography sx={{minWidth: "max-content"}}>{info[time].split("T")[0]}</Typography>
+            </TableCell>
+        )
+    })
+
     return (
         <TableRow hover>
-            <TableCell>
-                <Typography>{info.category}</Typography>
-            </TableCell>
-            <TableCell>
-                <Typography>{info.title}</Typography>
-            </TableCell>
-            <TableCell>
-                <Typography>{info.created.toISOString().split("T")[0]}</Typography>
-            </TableCell>
-            <TableCell>
-                <Typography>{info.updated.toISOString().split("T")[0]}</Typography>
-            </TableCell>
+            {cells}
+            {cellsTime}
             <CustomTableCell>
                 <CustomBox onClick={handleClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                     <MoreHoriz color={hover ? "primary" : "inherit"}/>

@@ -14,7 +14,6 @@ const UIInput: React.FC<props> = ({updateValue, type="text", fullWidth=true, pla
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
-        console.log(e.target.value);
         setValue(e.target.value)
         updateValue(e.target.value)
     }

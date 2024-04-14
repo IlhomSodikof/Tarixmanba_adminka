@@ -3,12 +3,15 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import UILink from "../../ui-components/link";
 import { CustomAppBar, CustomLogoutBox } from './custom.style';
 import { links } from './link';
+import { useUserContext } from "../../context/UserContext";
 
 interface props {
     active: boolean
 }
 
 const Sidebar: React.FC<props> = ({active}) => {
+    const {user, setUser} = useUserContext()
+    
     const linksResult = links.map(link => {
         return (
             <UILink
@@ -21,6 +24,10 @@ const Sidebar: React.FC<props> = ({active}) => {
         )
     })
 
+    const logOut = () => {
+        setUser({email: ""})
+    }
+
     return (
         <CustomAppBar 
             position="fixed"
@@ -30,10 +37,10 @@ const Sidebar: React.FC<props> = ({active}) => {
         >
             {linksResult}
             <CustomLogoutBox>
-                <Button variant="contained" fullWidth sx={{
+                <Button variant="contained" fullWidth onClick={logOut} sx={{
                     margin: "0 20px"
                 }}>
-                    <Typography>Log Out </Typography>
+                    <Typography sx={{marginRight: "5px"}}>Log Out</Typography>
                     <LogoutIcon />
                 </Button>
             </CustomLogoutBox>

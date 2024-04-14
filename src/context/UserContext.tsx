@@ -4,7 +4,7 @@ interface UserContextProviderProps {
     children: ReactNode
 }
 
-interface UserContext {
+interface UserContextType {
     user: {email: string},
     setUser: Dispatch<SetStateAction<{email: string}>>
 }
@@ -13,7 +13,7 @@ interface UserType {
     email: string
 }
 
-export const UserContext = createContext<UserContext>({
+export const UserContext = createContext<UserContextType>({
     user: {
         email: "user@gmail.com"
     },

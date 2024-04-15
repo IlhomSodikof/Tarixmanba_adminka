@@ -4,6 +4,7 @@ import UILink from "../../ui-components/link";
 import { CustomAppBar, CustomLogoutBox } from './custom.style';
 import { links } from './link';
 import { useUserContext } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 interface props {
     active: boolean
@@ -11,6 +12,7 @@ interface props {
 
 const Sidebar: React.FC<props> = ({active}) => {
     const {user, setUser} = useUserContext()
+    const navigate = useNavigate()
     
     const linksResult = links.map(link => {
         return (
@@ -26,6 +28,8 @@ const Sidebar: React.FC<props> = ({active}) => {
 
     const logOut = () => {
         setUser({email: ""})
+        localStorage.setItem("user", "")
+        navigate("/login", {replace: true})
     }
 
     return (

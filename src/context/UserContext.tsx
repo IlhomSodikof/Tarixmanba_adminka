@@ -5,21 +5,20 @@ interface UserContextProviderProps {
 }
 
 interface UserContextType {
-    user: {email: string},
-    setUser: Dispatch<SetStateAction<{email: string}>>
+    user: {email: string | null},
+    setUser: Dispatch<SetStateAction<{email: string | null}>>
 }
 
 interface UserType {
-    email: string
+    email: string | null
 }
-
+//"user@gmail.com"
 export const UserContext = createContext<UserContextType>({
     user: {
-        email: "user@gmail.com"
+        email: localStorage.getItem("user") || "user@gmail.com"
     },
     setUser: function (value: SetStateAction<Object>): void {
         console.log(value);
-        throw new Error("Function not implemented.");
     }
 })
 
@@ -29,8 +28,8 @@ export default function UserContextProvider({children}: UserContextProviderProps
     return (
         <UserContext.Provider
             value={{
-            user,
-            setUser,
+                user,
+                setUser,
             }}
         >
             {children}

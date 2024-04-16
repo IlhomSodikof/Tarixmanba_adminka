@@ -8,7 +8,7 @@ export const CustomAppBar = styled(AppBar)(({theme}) => ({
     overflow: "hidden"
 }))
 
-export const CustomLogoutBox = styled(Box)(({theme}) => ({
+export const CustomLogoutBox = styled(Box)(() => ({
     position: "absolute",
     bottom: "30px",
     margin: "0 auto",

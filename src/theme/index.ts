@@ -13,7 +13,10 @@ const themeOptions: ThemeOptions = {
             default: mainColors.main,
             paper: backgroundColors.light 
         },
-        divider: borderColor.main
+        divider: borderColor.main,
+        action: {
+            selected: backgroundColors.login
+        }
     },
     typography: {
         fontSize: 20

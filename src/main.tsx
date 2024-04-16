@@ -5,6 +5,8 @@ import { ThemeProvider } from '@emotion/react'
 import theme from './theme'
 import { BrowserRouter } from 'react-router-dom'
 
+import "./i18n"
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <ThemeProvider theme={theme}>
     <BrowserRouter>

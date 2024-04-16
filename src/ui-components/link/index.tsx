@@ -29,20 +29,24 @@ const UILink: React.FC<props> = ({to, text, Icon, active}) => {
         <CustomLink
             onMouseOver={handleClick}
             onMouseLeave={() => setAnchorEl(null)}
-            component={RouterLink}
-            to={to}
-            underline="none"
             sx={{
                 backgroundColor: act ? "primary.main" : "transparent",
-                color: act ? "#fff" : "primary.light",
                 padding: active ? "0 24px" : "0",
                 width: active ? "100%" : "60px",
-                justifyContent: active ? "flex-start" : "center"
             }}
-        >
-            <Icon />
-            {!active && (<HoverPopUp Icon={Icon} text={text} open={anchorEl} />)}
-            {active && (<Typography>{text}</Typography>)}
+            >
+            <RouterLink to={to} style={{
+                justifyContent: active ? "flex-start" : "center",
+                color: act ? "#fff" : "primary.light",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                height: "100%",
+            }}>
+                <Icon />
+                {!active && (<HoverPopUp Icon={Icon} text={text} open={anchorEl} />)}
+                {active && (<Typography>{text}</Typography>)}
+            </RouterLink>
         </CustomLink>
     )
 }

@@ -17,3 +17,12 @@ export const getAllLibraryCategories = async () => {
         throw error
     }
 }
+
+export const getAllAtricles = async () => {
+    try {
+        const res = await instance.get("articles/")
+        return res.data
+    } catch (error) {
+        throw error
+    }
+}

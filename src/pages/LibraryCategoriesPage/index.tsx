@@ -9,7 +9,7 @@ import { DisplayDataProps } from "../../types/libraryCategories"
 import TableCells from "../../components/displayData/tableCells"
 
 const LibraryCategories: React.FC = () => {
-    const [size, setSize] = useState<number>(1)
+    const [size, _setSize] = useState<number>(1)
 
     const [loading, setLoading] = useState<boolean>(false)
 

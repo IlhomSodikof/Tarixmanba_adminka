@@ -18,9 +18,12 @@ const FilterCategoriesPage = lazy(() => import("../pages/FilterCategoriesPage"))
 const FiltersPage = lazy(() => import("../pages/FiltersPage"))
 const FeedbacksPage = lazy(() => import("../pages/FeedbacksPage"))
 const CommentsPage = lazy(() => import("../pages/CommentsPage"))
+
 const LoginPage = lazy(() => import("../pages/LoginPage"))
+
 const SourceCreatePage = lazy(() => import("../pages/SourcePage/SourceCreatePage"))
 const SourceEditPage = lazy(() => import("../pages/SourcePage/SourceEditPage"))
+const ArticlesCreatePage = lazy(() => import("../pages/ArticlesPage/ArticlesCreatePage"));
 const LibraryCategoriesCreatePage = lazy(() => import("../pages/LibraryCategoriesPage/LibraryCategoriesCreatePage"))
 const LibraryCategoriesEditPage = lazy(() => import("../pages/LibraryCategoriesPage/LibraryCategoriesEditPage"))
 
@@ -70,6 +73,14 @@ const routes: RouteObject[] = [
         element: (
             <ProtectedRoute>
                 <ArticlesPage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/articles/create",
+        element: (
+            <ProtectedRoute>
+                <ArticlesCreatePage />
             </ProtectedRoute>
         )
     },

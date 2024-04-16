@@ -6,7 +6,8 @@ export const mainColors = {
 
 export const backgroundColors = {
     dark: "#001529",
-    light: "#fafafa"
+    light: "#fafafa",
+    login: "#c8d8e4"
 }
 
 export const borderColor = {

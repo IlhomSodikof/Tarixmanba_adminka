@@ -5,13 +5,19 @@ import { CustomAppBar, CustomLogoutBox } from './custom.style';
 import { links } from './link';
 import { useUserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface props {
     active: boolean
 }
 
 const Sidebar: React.FC<props> = ({active}) => {
+    const {t, i18n} = useTranslation("main")
+    console.log(t("text"), i18n);
+    
     const {user, setUser} = useUserContext()
+    console.log(user);
+    
     const navigate = useNavigate()
     
     const linksResult = links.map(link => {
@@ -44,7 +50,7 @@ const Sidebar: React.FC<props> = ({active}) => {
                 <Button variant="contained" fullWidth onClick={logOut} sx={{
                     margin: "0 20px"
                 }}>
-                    <Typography sx={{marginRight: "5px"}}>Log Out</Typography>
+                    <Typography sx={{marginRight: "5px"}}>{t("text")}</Typography>
                     <LogoutIcon />
                 </Button>
             </CustomLogoutBox>

@@ -1,0 +1,1 @@
+export type languageTypes = "ru" | "uz" | "en" | string

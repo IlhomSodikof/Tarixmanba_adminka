@@ -7,6 +7,7 @@ import DisplayData from "../../components/displayData"
 import { getAllLibraryCategories } from "../../utils/apiGetCalls"
 import { DisplayDataProps } from "../../types/libraryCategories"
 import TableCells from "../../components/displayData/tableCells"
+import { getFilteredData } from "../../utils/getFilteredData"
 
 const LibraryCategories: React.FC = () => {
     const [size, _setSize] = useState<number>(1)
@@ -30,8 +31,11 @@ const LibraryCategories: React.FC = () => {
     }, [])
 
     const result = data && data.length > 0 && data.map((info: DisplayDataProps) => {
+        
+        const filtered = getFilteredData({data: info, start: 1, end: 2});
+
         return (
-            <TableCells key={info.id} info={info} />      
+            <TableCells key={info.id} info={info} filtered={filtered} />      
         )
     })
 

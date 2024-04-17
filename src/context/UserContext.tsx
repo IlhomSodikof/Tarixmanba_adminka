@@ -12,18 +12,10 @@ interface UserContextType {
 interface UserType {
     email: string | null
 }
-//"user@gmail.com"
-export const UserContext = createContext<UserContextType>({
-    user: {
-        email: localStorage.getItem("user") || "user@gmail.com"
-    },
-    setUser: function (value: SetStateAction<Object>): void {
-        console.log(value);
-    }
-})
+export const UserContext = createContext<UserContextType | undefined>(undefined)
 
 export default function UserContextProvider({children}: UserContextProviderProps) {
-    const [user, setUser] = useState<UserType>({email: ""});
+    const [user, setUser] = useState<UserType>({email: localStorage.getItem("user") || "user@gmail.com"});
  
     return (
         <UserContext.Provider

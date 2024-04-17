@@ -32,7 +32,7 @@ const PopperModal: React.FC<PopperModalProps> = ({open, info, changeOpen}) => {
                 }}
             >
                 <Button variant="outlined">
-                    <Link to={`edit/${info.title.toLowerCase().split(" ").join("-")}`} state={info}>Edit</Link>
+                    <Link to={`edit/${info.title.toLowerCase().split(" ").join("-")}`} state={info.id}>Edit</Link>
                 </Button>
                 <Button variant="outlined" color="error" onClick={handleDelete}>Delete</Button>
             </CustomPopper>

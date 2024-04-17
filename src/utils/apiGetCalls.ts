@@ -18,11 +18,23 @@ export const getAllLibraryCategories = async () => {
     }
 }
 
-export const getAllAtricles = async () => {
+export const getSingleLibraryCategories = async (id: string) => {
     try {
-        const res = await instance.get("articles/")
+        //library-categories
+        const res = await instance.get(`feedbacks/${id}`)
+        console.log(id, res);
         return res.data
     } catch (error) {
         throw error
     }
 }
+
+export const getAllAtricles = async () => {
+    try {
+        const res = await instance.get("news/")
+        return res.data
+    } catch (error) {
+        throw error
+    }
+}
+

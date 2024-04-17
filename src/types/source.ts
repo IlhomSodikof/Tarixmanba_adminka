@@ -2,8 +2,8 @@ export interface DisplayDataProps {
     id: string,
     category: string,
     title: string,
-    created: Date,
-    updated: Date
+    created_time: Date,
+    updated_time: Date
 }
 
 export interface PopperModalProps {

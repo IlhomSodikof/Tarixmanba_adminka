@@ -7,6 +7,7 @@ import { DisplayDataProps } from "../../types/source"
 import { headers } from "./constants/headers"
 import { DisplayDataHeaders } from "../../types"
 import { getAllAtricles } from "../../utils/apiGetCalls"
+import { getFilteredData } from "../../utils/getFilteredData"
 
 const Article: React.FC = () => {
     const [size, _setSize] = useState<number>(1)
@@ -20,6 +21,7 @@ const Article: React.FC = () => {
     useEffect(() => {
         getAllAtricles()
             .then(res => {
+                console.log(res);
                 setLoading(true)
                 setData(res.results)
             })
@@ -30,8 +32,10 @@ const Article: React.FC = () => {
     }, [])
 
     const result = data && data.length > 0 && data.map((info: DisplayDataProps) => {
+        const filtered = getFilteredData({data: info, start: 1, end: 2})
+        
         return (
-            <TableCells key={info.id} info={info} />      
+            <TableCells key={info.id} filtered={filtered} info={info} />      
         )
     })
 

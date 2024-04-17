@@ -12,11 +12,9 @@ interface props {
 }
 
 const Sidebar: React.FC<props> = ({active}) => {
-    const {t, i18n} = useTranslation("main")
-    console.log(t("text"), i18n);
+    const {t} = useTranslation("main")
     
     const {user, setUser} = useUserContext()
-    console.log(user);
     
     const navigate = useNavigate()
     
@@ -50,7 +48,7 @@ const Sidebar: React.FC<props> = ({active}) => {
                 <Button variant="contained" fullWidth onClick={logOut} sx={{
                     margin: "0 20px"
                 }}>
-                    <Typography sx={{marginRight: "5px"}}>{t("text")}</Typography>
+                    <Typography sx={{marginRight: "5px", textTransform: "capitalize"}}>{t("logout")}</Typography>
                     <LogoutIcon />
                 </Button>
             </CustomLogoutBox>

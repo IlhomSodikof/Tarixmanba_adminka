@@ -8,3 +8,12 @@ export const createLibraryCategories = async (data: any) => {
         throw error
     }
 }
+
+export const createArticles = async (data: any) => {
+    try {
+        const res = await instance.post("news/create/", data)
+        return res.data
+    } catch (error) {
+        throw error
+    }
+}

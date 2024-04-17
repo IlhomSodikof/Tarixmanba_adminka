@@ -8,7 +8,12 @@ import { useState } from "react"
 // components
 import PopperModal from "./popperModal"
 
-const TableCells: React.FC<{info: any}> = ({info}) => {
+interface props {
+    info: any,
+    filtered: string[]
+}
+
+const TableCells: React.FC<props> = ({info, filtered}) => {
     const [open, setOpen] = useState<HTMLElement | null>(null)
     const [hover, setHover] = useState<boolean>(false)
 
@@ -16,28 +21,12 @@ const TableCells: React.FC<{info: any}> = ({info}) => {
         setOpen(open ? null : event.currentTarget);
     };
 
-    const keys = Object.keys(info)
-
-    const arr = keys.slice(1, keys.length - 2)
-
-    const arrTime = keys.slice(keys.length - 2)
-
-    const cells = arr.map(key => {
+    const cells = filtered.map((data, index) => {
         return (
-            <TableCell key={key} sx={{
+            <TableCell key={index} sx={{
                 height: "100%"
             }}>
-                <Typography>{info[key]}</Typography>
-            </TableCell>
-        )
-    })
-
-    const cellsTime = arrTime.map((time: string) => {
-        return (
-            <TableCell key={time} sx={{
-                height: "100%"
-            }}>
-                <Typography sx={{minWidth: "max-content"}}>{info[time].split("T")[0]}</Typography>
+                <Typography>{data}</Typography>
             </TableCell>
         )
     })
@@ -45,7 +34,6 @@ const TableCells: React.FC<{info: any}> = ({info}) => {
     return (
         <TableRow hover>
             {cells}
-            {cellsTime}
             <CustomTableCell>
                 <CustomBox onClick={handleClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                     <MoreHoriz color={hover ? "primary" : "inherit"}/>

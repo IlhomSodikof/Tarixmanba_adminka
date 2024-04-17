@@ -1,6 +1,6 @@
 export interface DisplayDataProps {
     id: number,
     title: string,
-    created: Date,
-    updated: Date
+    created_time: Date,
+    updated_time: Date
 }

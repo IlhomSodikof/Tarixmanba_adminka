@@ -9,7 +9,8 @@ export interface DisplayDataProps {
 export interface PopperModalProps {
     open: HTMLElement | null,
     info: any,
-    changeOpen: (e: any) => void
+    changeOpen: (e: any) => void,
+    deleteText: string
 }
 
 export interface CreateSourceAttributes {

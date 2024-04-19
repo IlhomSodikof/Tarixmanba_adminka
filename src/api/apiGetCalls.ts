@@ -1,8 +1,8 @@
-import instance from "../api/settings"
+import instance from "./settings"
 
-export const getAllSources = async () => {
+export const getAllDatas = async (text: string) => {
     try {
-        const res = await instance.get("resource/")
+        const res = await instance.get(`${text}/`)
         return res.data
     } catch (error) {
         throw error
@@ -18,11 +18,9 @@ export const getAllLibraryCategories = async () => {
     }
 }
 
-export const getSingleLibraryCategories = async (id: string) => {
+export const getSingleData = async (id: string, text: string) => {
     try {
-        //library-categories
-        const res = await instance.get(`feedbacks/${id}`)
-        console.log(id, res);
+        const res = await instance.get(`${text}/${id}`)
         return res.data
     } catch (error) {
         throw error

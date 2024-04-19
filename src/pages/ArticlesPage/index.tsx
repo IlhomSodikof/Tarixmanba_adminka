@@ -6,7 +6,7 @@ import TableCells from "../../components/displayData/tableCells"
 import { DisplayDataProps } from "../../types/source"
 import { headers } from "./constants/headers"
 import { DisplayDataHeaders } from "../../types"
-import { getAllAtricles } from "../../utils/apiGetCalls"
+import { getAllDatas } from "../../api/apiGetCalls"
 import { getFilteredData } from "../../utils/getFilteredData"
 
 const Article: React.FC = () => {
@@ -19,7 +19,7 @@ const Article: React.FC = () => {
     const [page, setPage] = useState<number>(1)
 
     useEffect(() => {
-        getAllAtricles()
+        getAllDatas("news")
             .then(res => {
                 console.log(res);
                 setLoading(true)
@@ -35,7 +35,7 @@ const Article: React.FC = () => {
         const filtered = getFilteredData({data: info, start: 1, end: 2})
         
         return (
-            <TableCells key={info.id} filtered={filtered} info={info} />      
+            <TableCells key={info.id} filtered={filtered} info={info} deleteText="news" />      
         )
     })
 

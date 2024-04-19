@@ -14,7 +14,7 @@ import { DisplayDataHeaders } from "../../types"
 // hooks
 import { useDebounce } from "../../hooks/useDebounce"
 // apiCalls
-import { getAllSources } from "../../utils/apiGetCalls"
+import { getAllDatas } from "../../api/apiGetCalls"
 
 const Source: React.FC = () => {
     const [search, setSearch] = useState<string>("")
@@ -30,11 +30,10 @@ const Source: React.FC = () => {
     const [size, _setSize] = useState<number>(15)
 
     useEffect(() => {
-        getAllSources()
+        getAllDatas("resource")
             .then(res => {
                 setLoading(true)
                 setData(res.results)
-                console.log(res);
             })
             .catch(err => {
                 console.log(err);
@@ -45,7 +44,7 @@ const Source: React.FC = () => {
     const result = data && data.map((info: DisplayDataProps) => {
         return (
             <Box>
-                <TableCells key={info.title} info={info} />      
+                <TableCells key={info.title} info={info} filtered={[]} deleteText="resource" />      
             </Box>
         )
     })

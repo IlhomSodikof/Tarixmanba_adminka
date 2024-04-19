@@ -4,7 +4,7 @@ import { headers } from "./constants/headers"
 import { DisplayDataHeaders } from "../../types"
 import { useEffect, useState } from "react"
 import DisplayData from "../../components/displayData"
-import { getAllLibraryCategories } from "../../utils/apiGetCalls"
+import { getAllDatas } from "../../api/apiGetCalls"
 import { DisplayDataProps } from "../../types/libraryCategories"
 import TableCells from "../../components/displayData/tableCells"
 import { getFilteredData } from "../../utils/getFilteredData"
@@ -19,7 +19,7 @@ const LibraryCategories: React.FC = () => {
     const [page, setPage] = useState<number>(1)
 
     useEffect(() => {
-        getAllLibraryCategories()
+        getAllDatas("library_category")
             .then(res => {
                 setLoading(true)
                 setData(res.results)
@@ -35,7 +35,7 @@ const LibraryCategories: React.FC = () => {
         const filtered = getFilteredData({data: info, start: 1, end: 2});
 
         return (
-            <TableCells key={info.id} info={info} filtered={filtered} />      
+            <TableCells key={info.id} info={info} filtered={filtered} deleteText={"library_category"} />      
         )
     })
 

@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material"
 import { useState } from "react"
 import UIInput from "../../ui-components/input/input"
-import { createLibraryCategories } from "../../utils/apiPostCalls"
+import { createLibraryCategories } from "../../api/apiPostCalls"
 import { useNavigate } from "react-router-dom"
 
 const LibraryCategoriesCreatePage: React.FC = () => {

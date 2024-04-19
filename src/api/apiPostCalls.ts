@@ -1,4 +1,4 @@
-import instance from "../api/settings";
+import instance from "./settings";
 
 export const createLibraryCategories = async (data: any) => {
     try {

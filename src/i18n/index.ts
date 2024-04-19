@@ -9,7 +9,7 @@ i18next
         debug: true,
         defaultNS: "main",
         ns: "main", 
-        lng: localStorage.getItem("lng") || "en",
+        lng: localStorage.getItem("lang") || "en",
         fallbackLng: "en",
         interpolation: {
             escapeValue: false,

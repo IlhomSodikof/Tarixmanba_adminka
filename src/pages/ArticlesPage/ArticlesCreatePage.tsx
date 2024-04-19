@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material"
 import { useState } from "react"
 import UIInput from "../../ui-components/input/input"
-import { createArticles } from "../../utils/apiPostCalls"
+import { createArticles } from "../../api/apiPostCalls"
 import { useNavigate } from "react-router-dom"
 import { UITinyMCE } from "../../ui-components/input"
 import UIFile from "../../ui-components/input/file"

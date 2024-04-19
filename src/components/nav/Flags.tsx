@@ -4,7 +4,7 @@ import { useState } from "react"
 import { languageTypes } from "../../types/languages"
 import { useLanguageContext } from "../../context/LanguageContext"
 
-const FlagsComp = () => {
+const FlagsComp: React.FC = () => {
     const {language, changeLanguage} = useLanguageContext()
     const [value, setValue] = useState<languageTypes>(language)
 

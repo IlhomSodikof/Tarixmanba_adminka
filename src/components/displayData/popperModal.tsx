@@ -6,10 +6,14 @@ import { Link } from "react-router-dom";
 import { CustomPopper } from "./custom.style"
 // types
 import { PopperModalProps } from "../../types/source";
+import { deleteItem } from "../../api/apiDeleteCalls";
 
-const PopperModal: React.FC<PopperModalProps> = ({open, info, changeOpen}) => {
+const PopperModal: React.FC<PopperModalProps> = ({open, info, changeOpen, deleteText}) => {
     const handleDelete = () => {
-        console.log(info.category);
+        console.log(deleteText, info.id);
+        deleteItem(deleteText, info.id)
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
     }
 
     return (

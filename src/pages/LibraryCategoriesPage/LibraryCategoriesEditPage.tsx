@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { getSingleLibraryCategories } from "../../utils/apiGetCalls";
+import { getSingleLibraryCategories } from "../../api/apiGetCalls";
 
 const LibraryCategoriesEditPage: React.FC = () => {
     const id = useLocation().state;

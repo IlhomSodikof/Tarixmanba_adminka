@@ -10,10 +10,11 @@ import PopperModal from "./popperModal"
 
 interface props {
     info: any,
-    filtered: string[]
+    filtered: string[],
+    deleteText: string
 }
 
-const TableCells: React.FC<props> = ({info, filtered}) => {
+const TableCells: React.FC<props> = ({info, filtered, deleteText}) => {
     const [open, setOpen] = useState<HTMLElement | null>(null)
     const [hover, setHover] = useState<boolean>(false)
 
@@ -38,7 +39,7 @@ const TableCells: React.FC<props> = ({info, filtered}) => {
                 <CustomBox onClick={handleClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                     <MoreHoriz color={hover ? "primary" : "inherit"}/>
                 </CustomBox>
-                <PopperModal open={open} changeOpen={e => setOpen(e)} info={info} />
+                <PopperModal open={open} changeOpen={e => setOpen(e)} info={info} deleteText={deleteText} />
             </CustomTableCell>
         </TableRow>    
     )

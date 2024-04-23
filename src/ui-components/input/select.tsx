@@ -9,7 +9,7 @@ interface props {
 }
 
 const UISelect: React.FC<props> = ({options, placeholder, updateValue, disabled=true}) => {
-    const [value, setValue] = useState<string>("")
+    const [value, setValue] = useState<string>(options[0])
 
     const handleInput = (_e: any, value: string) => {
         setValue(value)

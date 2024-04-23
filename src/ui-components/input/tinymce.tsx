@@ -1,6 +1,6 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { Editor } from '@tinymce/tinymce-react';
-import {  Suspense, useState } from 'react';
+import { useState } from 'react';
 
 interface props {
     updateMCE: (e: string) => void
@@ -15,7 +15,6 @@ export const UITinyMCE: React.FC<props> = ({updateMCE}) => {
 
     return (
         <Box>
-            {/* {loading ? (<Typography>Loading ...</Typography>) : ( */}
                 <Editor
                     apiKey='ykx1nqpmimf7wjh00ebqk2i101ln9x6ksv3tgqxvfs3w3l4m'
                     scriptLoading={{

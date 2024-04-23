@@ -20,7 +20,7 @@ const FlagsComp: React.FC = () => {
         >
             {languages.map(language => {
                 return (
-                    <MenuItem value={language.toLowerCase()}>{language}</MenuItem>
+                    <MenuItem key={language} value={language.toLowerCase()}>{language}</MenuItem>
                 )
             })}
         </Select>

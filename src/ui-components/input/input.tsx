@@ -13,14 +13,12 @@ const UIInput: React.FC<props> = ({updateValue, type="text", fullWidth=true, pla
     const [value, setValue] = useState<string | number>(defaultValue || "")
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault()
         setValue(e.target.value)
         updateValue(e.target.value)
     }
     return (
         <TextField
             type={type} 
-            defaultValue={value}
             required
             placeholder={placeholder}
             id="outlined-basic" 

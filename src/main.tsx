@@ -5,18 +5,14 @@ import { ThemeProvider } from '@emotion/react'
 import theme from './theme'
 import { BrowserRouter } from 'react-router-dom'
 
-import "./i18n"
-import LanguageContextProvider from './context/LanguageContext.tsx'
 import UserContextProvider from './context/UserContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <ThemeProvider theme={theme}>
     <BrowserRouter>
-      <LanguageContextProvider>
-        <UserContextProvider>
-          <App />
-        </UserContextProvider>
-      </LanguageContextProvider>
+      <UserContextProvider>
+        <App />
+      </UserContextProvider>
     </BrowserRouter>
   </ThemeProvider>
 )

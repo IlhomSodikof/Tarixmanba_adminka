@@ -1,6 +1,5 @@
 import { MenuOpen } from "@mui/icons-material"
 import { CustomStack } from "./custom.style"
-import FlagsComp from "./Flags"
 
 interface props {
     disableActive: (e: boolean) => void,
@@ -22,7 +21,6 @@ const Navbar: React.FC<props> = ({disableActive, active}) => {
               transform: active ? "rotate(0)" : "rotate(180deg)"
           }} 
       />
-      <FlagsComp />
     </CustomStack>
   )
 }

@@ -18,7 +18,7 @@ const UIInput: React.FC<props> = ({updateValue, type="text", fullWidth=true, pla
     }
     return (
         <TextField
-            type={type} 
+            type={type}
             required
             placeholder={placeholder}
             id="outlined-basic" 

@@ -5,15 +5,12 @@ import { CustomAppBar, CustomLogoutBox } from './custom.style';
 import { links } from './link';
 import { useUserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 
 interface props {
     active: boolean
 }
 
 const Sidebar: React.FC<props> = ({active}) => {
-    const {t} = useTranslation("main")
-    
     const {user, setUser} = useUserContext()
     
     const navigate = useNavigate()
@@ -48,7 +45,6 @@ const Sidebar: React.FC<props> = ({active}) => {
                 <Button variant="contained" fullWidth onClick={logOut} sx={{
                     margin: "0 20px"
                 }}>
-                    <Typography sx={{marginRight: "5px", textTransform: "capitalize"}}>{t("logout")}</Typography>
                     <LogoutIcon />
                 </Button>
             </CustomLogoutBox>

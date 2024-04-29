@@ -1,5 +1,5 @@
 import { Box, Button, Stack, Typography } from "@mui/material"
-import UIInput from "../../../ui-components/input/input"
+import UIInput from "../../../../ui-components/input/input"
 import { useReducer } from "react"
 // import { UITinyMCE } from "../../../ui-components/input/tinymce"
 

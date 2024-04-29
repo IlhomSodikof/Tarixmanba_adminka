@@ -1,17 +1,8 @@
 import instance from "./settings";
 
-export const createLibraryCategories = async (data: any) => {
+export const createData = async (text: string, data: any) => {
     try {
-        const res = await instance.post("library_category/create/", data)
-        return res.data
-    } catch (error) {
-        throw error
-    }
-}
-
-export const createArticles = async (data: any) => {
-    try {
-        const res = await instance.post("news/create/", data)
+        const res = await instance.post(`${text}/create/`, data)
         return res.data
     } catch (error) {
         throw error

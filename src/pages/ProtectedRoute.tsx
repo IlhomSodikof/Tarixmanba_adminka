@@ -1,7 +1,6 @@
-import { ReactElement, Suspense } from "react"
+import { ReactElement } from "react"
 import { useUserContext } from "../context/UserContext"
 import { Navigate } from "react-router-dom"
-import Loading from "../components/loading"
 import Layout from "../layout"
 
 interface props {
@@ -17,11 +16,9 @@ const ProtectedRoute: React.FC<props> = ({children}) => {
     }
 
     return (
-        <Suspense fallback={<Loading />}>
-            <Layout>
-                {children}
-            </Layout>
-        </Suspense>
+        <Layout>
+            {children}
+        </Layout>
     )
 }
 

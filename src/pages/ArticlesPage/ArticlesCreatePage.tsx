@@ -1,9 +1,9 @@
 import { Box, Button, Typography } from "@mui/material"
 import { useState } from "react"
 import UIInput from "../../ui-components/input/input"
-import { createArticles } from "../../api/apiPostCalls"
+import { createData } from "../../api/apiPostCalls"
 import { useNavigate } from "react-router-dom"
-import { UITinyMCE } from "../../ui-components/input"
+import { UITinyMCE } from "../../ui-components/input/tinymce"
 import UIFile from "../../ui-components/input/file"
 
 const ArticlesCreatePage: React.FC = () => {
@@ -17,7 +17,7 @@ const ArticlesCreatePage: React.FC = () => {
     const handleSubmit = () => {
         if(!title) return
         setActive(true)
-        createArticles({title, content, file})
+        createData("articles", {title, content, file})
             .then(res => console.log(res))
             .catch(err => console.log(err))
             .finally(() => {

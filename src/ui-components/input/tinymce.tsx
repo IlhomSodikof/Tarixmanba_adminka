@@ -7,8 +7,6 @@ interface props {
 }
 
 export const UITinyMCE: React.FC<props> = ({updateMCE}) => {
-    const [loading, setLoading] = useState<boolean>(true)
-    
     const update = (e: string) => {
         updateMCE(e)
     }

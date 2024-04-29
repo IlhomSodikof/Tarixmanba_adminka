@@ -1,6 +1,6 @@
 import { Box, Button, Stack, Typography } from "@mui/material"
 import { useReducer } from "react"
-import UIInput from "../../../ui-components/input/input"
+import UIInput from "../../../../ui-components/input/input"
 
 interface Attribute {
     id: number,

@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material"
 import { useState } from "react"
 import UIInput from "../../ui-components/input/input"
-import { createLibraryCategories } from "../../api/apiPostCalls"
+import { createData } from "../../api/apiPostCalls"
 import { useNavigate } from "react-router-dom"
 
 const LibraryCategoriesCreatePage: React.FC = () => {
@@ -13,7 +13,7 @@ const LibraryCategoriesCreatePage: React.FC = () => {
     const handleSubmit = () => {
         if(!title) return
         setActive(true)
-        createLibraryCategories({title})
+        createData("library_category", {title})
             .then(res => console.log(res))
             .catch(err => console.log(err))
             .finally(() => {

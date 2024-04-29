@@ -1,6 +1,7 @@
-import { ReactElement, useState } from "react"
+import { ReactElement, useState, Suspense } from "react"
 import { Stack } from "@mui/material"
 import Sidebar from "../components/sidebar"
+import Loading from "../components/loading"
 import { CustomAppBox, CustomAppContainer } from "./custom.style"
 import Navbar from "../components/nav"
 import { useLocation } from "react-router-dom"
@@ -21,7 +22,9 @@ const Layout: React.FC<props> = ({children}) => {
             <CustomAppBox>
                 <Navbar disableActive={(e: boolean) => setActive(e)} active={active} />
                 <CustomAppContainer maxWidth="xl">
-                    {children}
+                    <Suspense fallback={<Loading />}>
+                        {children}
+                    </Suspense>
                 </CustomAppContainer>
             </CustomAppBox>
         </Stack>

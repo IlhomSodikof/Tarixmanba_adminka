@@ -1,10 +1,10 @@
 // react
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 // mui
 import { Box, TableCell, Typography } from "@mui/material"
 // components
 import DisplayData from "../../components/displayData"
-import Search from "../../components/source/search"
+import Search from "./components/search"
 import TableCells from "../../components/displayData/tableCells"
 // const
 import { headers } from "./constants/headers"
@@ -27,7 +27,9 @@ const Source: React.FC = () => {
 
     const [data, setData] = useState<DisplayDataProps[]|null>(null)
 
-    const [size, _setSize] = useState<number>(15)
+    const totalHeaders = useMemo(() => {
+        return headers.reduce((sum, header) => sum + header.space, 1)
+    }, [headers])
 
     useEffect(() => {
         getAllDatas("resource")
@@ -52,7 +54,7 @@ const Source: React.FC = () => {
     const headersDisplay = headers.map((header: DisplayDataHeaders) => {
         return (
             <TableCell key={header.text} sx={{
-                width: `${header.space/size*100}%`
+                width: `${header.space/totalHeaders*100}%`
             }}>
                 <Typography>{header.text}</Typography>
             </TableCell>

@@ -2,7 +2,7 @@ import { Box, TableCell, Typography } from "@mui/material"
 import UIButton from "../../ui-components/button"
 import { headers } from "./constants/headers"
 import { DisplayDataHeaders } from "../../types"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import DisplayData from "../../components/displayData"
 import { getAllDatas } from "../../api/apiGetCalls"
 import { DisplayDataProps } from "../../types/libraryCategories"
@@ -10,13 +10,15 @@ import TableCells from "../../components/displayData/tableCells"
 import { getFilteredData } from "../../utils/getFilteredData"
 
 const LibraryCategories: React.FC = () => {
-    const [size, _setSize] = useState<number>(1)
-
     const [loading, setLoading] = useState<boolean>(false)
 
     const [data, setData] = useState<DisplayDataProps[]|null>(null)
 
     const [page, setPage] = useState<number>(1)
+
+    const totalHeaders = useMemo(() => {
+        return headers.reduce((sum, header) => sum + header.space, 1)
+    }, [headers])
 
     useEffect(() => {
         getAllDatas("library_category")
@@ -42,7 +44,7 @@ const LibraryCategories: React.FC = () => {
     const headersDisplay = headers.map((header: DisplayDataHeaders) => {
         return (
             <TableCell key={header.text} sx={{
-                width: `${header.space/size*100}%`
+                width: `${header.space/totalHeaders*100}%`
             }}>
                 <Typography>{header.text}</Typography>
             </TableCell>

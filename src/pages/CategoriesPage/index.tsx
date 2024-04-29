@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { getAllDatas } from "../../api/apiGetCalls"
 import { DisplayDataProps } from "../../types/categories"
 import { getFilteredData } from "../../utils/getFilteredData"
@@ -10,13 +10,15 @@ import UIButton from "../../ui-components/button"
 import DisplayData from "../../components/displayData"
 
 const Categories: React.FC = () => {
-    const [size, _setSize] = useState<number>(1)
-
     const [loading, setLoading] = useState<boolean>(false)
 
     const [data, setData] = useState<DisplayDataProps[]|null>(null)
 
     const [page, setPage] = useState<number>(1)
+
+    const totalHeaders = useMemo(() => {
+        return headers.reduce((sum, header) => sum + header.space, 1)
+    }, [headers])
 
     useEffect(() => {
         getAllDatas("category")
@@ -35,14 +37,14 @@ const Categories: React.FC = () => {
         const filtered = getFilteredData({data: info, start: 1, end: 2});
 
         return (
-            <TableCells key={info.id} info={info} filtered={filtered} deleteText={"library"} />      
+            <TableCells key={info.id} info={info} filtered={filtered} deleteText={"category"} />      
         )
     })
 
     const headersDisplay = headers.map((header: DisplayDataHeaders) => {
         return (
             <TableCell key={header.text} sx={{
-                width: `${header.space/size*100}%`
+                width: `${header.space/totalHeaders*100}%`
             }}>
                 <Typography>{header.text}</Typography>
             </TableCell>

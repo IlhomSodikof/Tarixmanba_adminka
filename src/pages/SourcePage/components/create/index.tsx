@@ -3,17 +3,15 @@ import { Box, Button, Stack, Typography } from "@mui/material"
 // react
 import { useState } from "react"
 // ui-components
-import UISelect from "../../../ui-components/input/select"
+import UISelect from "../../../../ui-components/input/select"
 // import {UITinyMCE} from "../../../ui-components/input/tinymce"
-import UIInput from "../../../ui-components/input/input"
-import UIFile from "../../../ui-components/input/file"
+import UIInput from "../../../../ui-components/input/input"
+import UIFile from "../../../../ui-components/input/file"
 // types
-import UISwitch from "../../../ui-components/input/switch"
+import UISwitch from "../../../../ui-components/input/switch"
 import Attributes from "./Attributes"
 import Contents from "./Contents"
 import InteractiveContents from "./InteractiveContent"
-
-
 
 const CreateField: React.FC = () => {
     const [category, setCategory] = useState<string>("")
@@ -30,6 +28,10 @@ const CreateField: React.FC = () => {
         console.log(category);
         console.log(statehood);
     }
+
+    // const getAllCategory = () => {
+
+    // }
 
     return (
         <Box>

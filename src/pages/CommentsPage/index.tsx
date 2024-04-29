@@ -1,6 +1,66 @@
+import { Box, TableCell, Typography } from "@mui/material"
+import DisplayData from "../../components/displayData"
+import { useEffect, useMemo, useState } from "react"
+import { headers } from "./constants/headers"
+import { DisplayDataHeaders } from "../../types"
+import { DisplayDataProps } from "../../types/sliders"
+import { getAllDatas } from "../../api/apiGetCalls"
+import { getFilteredData } from "../../utils/getFilteredData"
+import TableCells from "../../components/displayData/tableCells"
+
 const Comments: React.FC = () => {
+    const [loading, setLoading] = useState<boolean>(false)
+
+    const [data, setData] = useState<DisplayDataProps[]|null>(null)
+
+    const [page, setPage] = useState<number>(1)
+
+    const totalHeaders = useMemo(() => {
+        return headers.reduce((sum, header) => sum + header.space, 1)
+    }, [headers])
+
+    const headersDisplay = headers.map((header: DisplayDataHeaders) => {
+        return (
+            <TableCell key={header.text} sx={{
+                width: `${header.space/totalHeaders*90}%`
+            }}>
+                <Typography>{header.text}</Typography>
+            </TableCell>
+        )
+    })
+
+    useEffect(() => {
+        getAllDatas("connections")
+            .then(res => {
+                console.log(res);
+                setLoading(true)
+                setData(res.results)
+            })
+            .catch(err => {
+                console.log(err);
+            })
+            .finally(() => setLoading(false))
+    }, [])
+
+    const result = data && data.length > 0 && data.map((info: DisplayDataProps) => {
+        const filtered = getFilteredData({data: info, start: 2, end: 0})
+        
+        return (
+            <TableCells key={info.id} filtered={filtered} info={info} deleteText="connections" />      
+        )
+    })
+
     return (
-        <h2>Comments</h2>
+        <Box>
+            <DisplayData 
+                headersDisplay={headersDisplay}
+                loading={loading}
+                data={data}
+                result={result}
+                page={page}
+                updatePage={e => setPage(e)}
+            />
+        </Box>
     )
 }
 

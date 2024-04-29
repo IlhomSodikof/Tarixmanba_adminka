@@ -1,8 +1,8 @@
 import { Box, Button, Stack, Typography } from "@mui/material"
 import { useReducer } from "react"
-import UIInput from "../../../ui-components/input/input"
-import UISelect from "../../../ui-components/input/select"
-import UIFile from "../../../ui-components/input/file"
+import UIInput from "../../../../ui-components/input/input"
+import UISelect from "../../../../ui-components/input/select"
+import UIFile from "../../../../ui-components/input/file"
 
 interface InteractiveContent {
     id: number,

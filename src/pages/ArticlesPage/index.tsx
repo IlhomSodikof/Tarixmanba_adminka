@@ -1,22 +1,24 @@
 import { Box, TableCell, Typography } from "@mui/material"
 import UIButton from "../../ui-components/button"
 import DisplayData from "../../components/displayData"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import TableCells from "../../components/displayData/tableCells"
-import { DisplayDataProps } from "../../types/source"
+import { DisplayDataProps } from "../../types/articles"
 import { headers } from "./constants/headers"
 import { DisplayDataHeaders } from "../../types"
 import { getAllDatas } from "../../api/apiGetCalls"
 import { getFilteredData } from "../../utils/getFilteredData"
 
 const Article: React.FC = () => {
-    const [size, _setSize] = useState<number>(1)
-
     const [loading, setLoading] = useState<boolean>(false)
 
     const [data, setData] = useState<DisplayDataProps[]|null>(null)
 
     const [page, setPage] = useState<number>(1)
+
+    const totalHeaders = useMemo(() => {
+        return headers.reduce((sum, header) => sum + header.space, 1)
+    }, [headers])
 
     useEffect(() => {
         getAllDatas("news")
@@ -42,7 +44,7 @@ const Article: React.FC = () => {
     const headersDisplay = headers.map((header: DisplayDataHeaders) => {
         return (
             <TableCell key={header.text} sx={{
-                width: `${header.space/size*100}%`
+                width: `${header.space/totalHeaders*90}%`
             }}>
                 <Typography>{header.text}</Typography>
             </TableCell>

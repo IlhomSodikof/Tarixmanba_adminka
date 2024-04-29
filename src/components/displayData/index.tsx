@@ -16,17 +16,17 @@ interface props {
 const DisplayData = ({headersDisplay, loading, result, data, page, updatePage}: props) => {
     return (
         <TableContainer sx={{marginTop: "40px"}}>
+            <Table sx={{width: "100%"}}>
+                <TableBody>
+                    <TableRow selected>
+                        {headersDisplay}
+                    </TableRow>
+                    {result}
+                </TableBody>
+            </Table>
             {loading && <Loading />}
             {!loading && data && data?.length > 0 ? (
                 <Box>
-                    <Table sx={{width: "100%"}}>
-                        <TableBody>
-                            <TableRow selected>
-                                {headersDisplay}
-                            </TableRow>
-                            {result}
-                        </TableBody>
-                    </Table>
                     <Box sx={{
                         display: "flex",
                         justifyContent: "end",
@@ -46,7 +46,8 @@ const DisplayData = ({headersDisplay, loading, result, data, page, updatePage}: 
                 <Box sx={{
                     display: "flex",
                     justifyContent: "center",
-                    alignItems: "cente"
+                    alignItems: "center",
+                    height: "20vh"
                 }}>
                     <UINoData />
                 </Box>

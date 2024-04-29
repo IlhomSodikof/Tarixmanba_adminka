@@ -24,8 +24,14 @@ const LoginPage = lazy(() => import("../pages/LoginPage"))
 const SourceCreatePage = lazy(() => import("../pages/SourcePage/SourceCreatePage"))
 const SourceEditPage = lazy(() => import("../pages/SourcePage/SourceEditPage"))
 const ArticlesCreatePage = lazy(() => import("../pages/ArticlesPage/ArticlesCreatePage"));
+const CategoriesCreatePage = lazy(() => import("../pages/CategoriesPage/CategoriesCreatePage"))
 const LibraryCategoriesCreatePage = lazy(() => import("../pages/LibraryCategoriesPage/LibraryCategoriesCreatePage"))
 const LibraryCategoriesEditPage = lazy(() => import("../pages/LibraryCategoriesPage/LibraryCategoriesEditPage"))
+const LibrariesCreatePage = lazy(() => import("../pages/LibrariesPage/LibrariesCreatePage"))
+const SlidersCreatePage = lazy(() => import("../pages/SlidersPage/SlidersCreatePage"))
+const PeriodFilterCreatePage = lazy(() => import("../pages/PeriodFilterPage/PeriodFilterCreatePage"))
+const FilterCategoriesCreatePage = lazy(() => import("../pages/FilterCategoriesPage/FilterCategoriesCreatePage"))
+const FiltersCreatePage = lazy(() => import("../pages/FiltersPage/FiltersCreatePage"))
 
 const routes: RouteObject[] = [
     {
@@ -93,6 +99,14 @@ const routes: RouteObject[] = [
         )
     },
     {
+        path: "/categories/create",
+        element: (
+            <ProtectedRoute>
+                <CategoriesCreatePage />
+            </ProtectedRoute>
+        )
+    },
+    {
         path: "/library-categories",
         element: (
             <ProtectedRoute>
@@ -125,10 +139,26 @@ const routes: RouteObject[] = [
         )
     },
     {
+        path: "/libraries/create",
+        element: (
+            <ProtectedRoute>
+                <LibrariesCreatePage />
+            </ProtectedRoute>
+        )
+    },
+    {
         path: "/sliders",
         element: (
             <ProtectedRoute>
                 <SlidersPage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/sliders/create",
+        element: (
+            <ProtectedRoute>
+                <SlidersCreatePage />
             </ProtectedRoute>
         )
     },
@@ -157,6 +187,14 @@ const routes: RouteObject[] = [
         )
     },
     {
+        path: "/period-filter/create",
+        element: (
+            <ProtectedRoute>
+                <PeriodFilterCreatePage />
+            </ProtectedRoute>
+        )
+    },
+    {
         path: "/filter-categories",
         element: (
             <ProtectedRoute>
@@ -165,10 +203,26 @@ const routes: RouteObject[] = [
         )
     },
     {
+        path: "/filter-categories/create",
+        element: (
+            <ProtectedRoute>
+                <FilterCategoriesCreatePage />
+            </ProtectedRoute>
+        )
+    },
+    {
         path: "/filters",
         element: (
             <ProtectedRoute>
                 <FiltersPage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/filters/create",
+        element: (
+            <ProtectedRoute>
+                <FiltersCreatePage />
             </ProtectedRoute>
         )
     },

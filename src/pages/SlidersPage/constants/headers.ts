@@ -2,16 +2,20 @@ import { DisplayDataHeaders } from "../../../types";
 
 export const headers: DisplayDataHeaders[] = [
     {
-        text: "#",
-        space: 1
-    },
-    {
-        text: "Icon",
-        space: 1
-    },
-    {
         text: "Title",
-        space: 14
+        space: 7
+    },
+    {
+        text: "Link",
+        space: 5
+    },
+    {
+        text: "Created Date",
+        space: 2
+    },
+    {
+        text: "Updated Date",
+        space: 2
     },
     {
         text: "",

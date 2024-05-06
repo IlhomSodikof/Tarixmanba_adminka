@@ -10,10 +10,16 @@ interface props {
     result: any, 
     data: any, 
     page: number, 
+    count: number,
     updatePage: (e: number) => void
 }
 
-const DisplayData = ({headersDisplay, loading, result, data, page, updatePage}: props) => {
+const DisplayData = ({headersDisplay, loading, result, data, page, updatePage, count}: props) => {
+    if(loading || data.length < 0) return <Loading />
+
+    console.log(data, loading, Math.ceil(data.length/10));
+    
+
     return (
         <TableContainer sx={{marginTop: "40px"}}>
             <Table sx={{width: "100%"}}>
@@ -24,8 +30,7 @@ const DisplayData = ({headersDisplay, loading, result, data, page, updatePage}: 
                     {result}
                 </TableBody>
             </Table>
-            {loading && <Loading />}
-            {!loading && data && data?.length > 0 ? (
+            {!loading ? (
                 <Box>
                     <Box sx={{
                         display: "flex",
@@ -33,7 +38,7 @@ const DisplayData = ({headersDisplay, loading, result, data, page, updatePage}: 
                         marginTop: "20px"
                     }}>
                         <Pagination 
-                            count={data && Math.ceil(data.length/20) || 1} 
+                            count={Math.ceil(count/10) || 1} 
                             variant="outlined" 
                             shape="rounded"
                             page={page}

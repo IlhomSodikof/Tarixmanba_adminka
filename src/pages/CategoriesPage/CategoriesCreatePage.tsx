@@ -16,10 +16,16 @@ const CategoriesCreatePage: React.FC = () => {
             console.log("change it");
             return
         }
-        createData("category", {icon, title, order, interactive})
+        const data = new FormData()
+        data.append("icon", icon[0], icon[0].name)
+        data.append("title", title)
+        data.append("order", order.toString())
+        data.append("interactive", interactive.toString())
+
+        createData("category", data, true)
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
-            .finally(() => console.log("working"))
+            .finally(() => console.log("working", data, icon[0].type, icon))
     }
 
     return (

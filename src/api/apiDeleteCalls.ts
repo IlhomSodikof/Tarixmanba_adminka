@@ -2,7 +2,11 @@ import instance from "./settings"
 
 export const deleteItem = async (link: string, id: string) => {
     try {
-        const res = await instance.delete(`${link}/delete/${id}`)
+        const res = await instance.delete(`${link}/${id}/delete`, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
         return res.data
     } catch (error) {
         throw error

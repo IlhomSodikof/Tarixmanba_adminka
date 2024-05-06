@@ -1,7 +1,7 @@
 // react
-import { useEffect, useMemo, useState } from "react"
+import { useState } from "react"
 // mui
-import { Box, TableCell, Typography } from "@mui/material"
+import { Box } from "@mui/material"
 // components
 import DisplayData from "../../components/displayData"
 import Search from "./components/search"
@@ -9,12 +9,10 @@ import TableCells from "../../components/displayData/tableCells"
 // const
 import { headers } from "./constants/headers"
 // types
-import { DisplayDataProps } from "../../types/source"
-import { DisplayDataHeaders } from "../../types"
 // hooks
 import { useDebounce } from "../../hooks/useDebounce"
-// apiCalls
-import { getAllDatas } from "../../api/apiGetCalls"
+import useFetch from "../../hooks/useFetch"
+import UIHeaders from "../../ui-components/headers"
 
 const Source: React.FC = () => {
     const [search, setSearch] = useState<string>("")
@@ -23,27 +21,9 @@ const Source: React.FC = () => {
 
     const [page, setPage] = useState<number>(1)
 
-    const [loading, setLoading] = useState<boolean>(false)
+    const {data, loading, count} = useFetch("resource", page)
 
-    const [data, setData] = useState<DisplayDataProps[]|null>(null)
-
-    const totalHeaders = useMemo(() => {
-        return headers.reduce((sum, header) => sum + header.space, 1)
-    }, [headers])
-
-    useEffect(() => {
-        getAllDatas("resource")
-            .then(res => {
-                setLoading(true)
-                setData(res.results)
-            })
-            .catch(err => {
-                console.log(err);
-            })
-            .finally(() => setLoading(false))
-    }, [debouncedSearch])
-
-    const result = data && data.map((info: DisplayDataProps) => {
+    const result = data && data.map((info: any) => {
         return (
             <Box>
                 <TableCells key={info.title} info={info} filtered={[]} deleteText="resource" />      
@@ -51,21 +31,12 @@ const Source: React.FC = () => {
         )
     })
     
-    const headersDisplay = headers.map((header: DisplayDataHeaders) => {
-        return (
-            <TableCell key={header.text} sx={{
-                width: `${header.space/totalHeaders*100}%`
-            }}>
-                <Typography>{header.text}</Typography>
-            </TableCell>
-        )
-    })
-
     return (
         <section>
             <Search updateSearch={e => setSearch(e)} />
             <DisplayData 
-                headersDisplay={headersDisplay} 
+                count={count}
+                headersDisplay={<UIHeaders headers={headers} />} 
                 loading={loading}
                 result={result}
                 data={data}

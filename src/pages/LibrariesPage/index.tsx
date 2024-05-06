@@ -1,6 +1,4 @@
-import { useState, useEffect, useMemo } from "react"
-import { getAllDatas } from "../../api/apiGetCalls"
-import { DisplayDataProps } from "../../types/libraries"
+import { useState, useMemo } from "react"
 import { getFilteredData } from "../../utils/getFilteredData"
 import TableCells from "../../components/displayData/tableCells"
 import { headers } from "./constants/headers"
@@ -8,35 +6,19 @@ import { DisplayDataHeaders } from "../../types"
 import { Box, TableCell, Typography } from "@mui/material"
 import UIButton from "../../ui-components/button"
 import DisplayData from "../../components/displayData"
+import useFetch from "../../hooks/useFetch"
 
 const Libraries: React.FC = () => {
-    const [size, _setSize] = useState<number>(9)
+    const [page, setPage] = useState<number>(1)
 
-    const [loading, setLoading] = useState<boolean>(false)
-
-    const [data, setData] = useState<DisplayDataProps[]|null>([])
+    const {data, loading, count} = useFetch("library", page)
 
     const totalHeaders = useMemo(() => {
         return headers.reduce((sum, header) => sum + header.space, 1)
     }, [headers])
 
-    const [page, setPage] = useState<number>(1)
-
-    useEffect(() => {
-        getAllDatas("library")
-            .then(res => {
-                setLoading(true)
-                setData(res.results)
-            })
-            .catch(err => {
-                console.log(err);
-            })
-            .finally(() => setLoading(false))
-    }, [])
-
-    const result = data && data.length > 0 && data.map((info: DisplayDataProps) => {
-        
-        const filtered = getFilteredData({data: info, start: 2, end: 2});
+    const result = data && data.length > 0 && data.map((info: any) => {
+        const filtered = getFilteredData({data: info, keys: ["cat_library", "title", "created_time", "updated_time"]});
 
         return (
             <TableCells key={info.id} info={info} filtered={filtered} deleteText={"library"} />      
@@ -64,7 +46,8 @@ const Libraries: React.FC = () => {
                     to="create"
                 />
             </Box>
-            <DisplayData 
+            <DisplayData
+                count={count} 
                 headersDisplay={headersDisplay}
                 loading={loading}
                 data={data}

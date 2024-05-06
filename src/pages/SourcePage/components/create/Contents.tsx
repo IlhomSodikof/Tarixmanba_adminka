@@ -98,6 +98,13 @@ const Contents: React.FC = () => {
         })
     }
 
+    const deleteContents = (id: number) => {
+        dispatch({
+            type: "remove",
+            id
+        })
+    }
+
     return (
         <Box>
             <Typography sx={{marginTop: "20px"}}>Contents</Typography>
@@ -107,6 +114,7 @@ const Contents: React.FC = () => {
                         <Stack direction={"row"} sx={{margin: "10px 0 20px"}} gap={2}>
                             <UIInput updateValue={(e) => updateContents(index, "title", e)} placeholder="Title" />
                             <UIInput type="number" fullWidth={false} defaultValue={content.sequence} updateValue={(e) => updateContents(index, "sequence", e)} placeholder="Sequence" />
+                            {state.contents.length > 1 && (<Button variant="contained" onClick={() => deleteContents(content.id)}>Delete</Button>)}                        
                         </Stack>
                         {/* <UITinyMCE
                             updateMCE={(e) => updateContents(index, "textField", e)}

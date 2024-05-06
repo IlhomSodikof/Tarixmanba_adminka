@@ -62,7 +62,7 @@ const reducer = (state: State, action: Action) => {
             }
             return state
         case "remove":
-            return state.filter((att: Attribute) => att.id !== action.id)
+            return state.attributes.filter((att: Attribute) => att.id !== action.id)
         case "edit":
             return {
                 ...state,
@@ -100,6 +100,13 @@ const Attributes: React.FC = () => {
         })
     }
 
+    const deleteAttribute = (id: number) => {
+        dispatch({
+            type: "remove",
+            id
+        })
+    }
+
     return (
         <Box>
             <Typography sx={{margin: "15px 0 5px"}}><span style={{color: "red"}}>*</span> Attributes</Typography>
@@ -109,6 +116,7 @@ const Attributes: React.FC = () => {
                         <UIInput updateValue={(e) => updateAttribute(index, "title", e)} placeholder="Title" />
                         <UIInput updateValue={(e) => updateAttribute(index, "description", e)} placeholder="Description" />
                         <UIInput type="number" fullWidth={false} updateValue={(e) => updateAttribute(index, "num", e)} placeholder="Sequence" defaultValue={attribute.num} /> 
+                        {state.attributes.length > 1 && (<Button variant="contained" onClick={() => deleteAttribute(attribute.id)}>Delete</Button>)}                        
                     </Stack>
                 )
             }): console.log(state.attributes)}

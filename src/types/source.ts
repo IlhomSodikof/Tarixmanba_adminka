@@ -1,11 +1,3 @@
-export interface DisplayDataProps {
-    id: string,
-    category: string,
-    title: string,
-    created_time: Date,
-    updated_time: Date
-}
-
 export interface PopperModalProps {
     open: HTMLElement | null,
     info: any,

@@ -15,9 +15,15 @@ const ArticlesCreatePage: React.FC = () => {
     const navigate = useNavigate()
 
     const handleSubmit = () => {
-        if(!title) return
+        if(!title || !file) return
         setActive(true)
-        createData("articles", {title, content, file})
+
+        const form = new FormData()
+        form.append("title", title)
+        form.append("content", content)
+        form.append("file", file[0])
+        
+        createData("news", form, true)
             .then(res => console.log(res))
             .catch(err => console.log(err))
             .finally(() => {

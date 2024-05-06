@@ -1,15 +1,21 @@
 interface params {
     data: any,
-    start: number,
-    end: number
+    keys: string[]
 }
 
-export const getFilteredData = ({data, start, end}: params) => {
-    const info: string[] = Object.values(data)
-    const infoStart = info.splice(1, start)
-    const infoEnd: string[] = end > 0 ? info.splice(-1*end).map((date: string) => date.split("T")[0]): []
-    
-    const result: string[] = [...infoStart, ...infoEnd]
+export const getFilteredData = ({data, keys}: params) => {
+    const result: string[] = []
+    const objKeys = Object.keys(data)
+    keys.map((key: string) => {
+        if(objKeys.includes(key)){
+            if(key === "created_time" || key === "updated_time"){
+                result.push(data[key].split("T")[0])
+            }
+            else {
+                result.push(data[key])
+            }
+        }
+    })
 
     return result
 }

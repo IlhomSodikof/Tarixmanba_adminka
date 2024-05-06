@@ -1,6 +1,6 @@
 import { Box, Stack, TextField, Typography } from "@mui/material"
 import { ChangeEvent, useState } from "react"
-import UIButton from "../../../ui-components/button"
+import UIButton from "../../../../ui-components/button"
 
 interface props {
     updateSearch: (e: string) => void

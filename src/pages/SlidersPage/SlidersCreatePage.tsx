@@ -2,6 +2,7 @@ import { Box, Button, Stack, Typography } from "@mui/material"
 import { useState } from "react"
 import UIInput from "../../ui-components/input/input"
 import UIFile from "../../ui-components/input/file"
+import { createData } from "../../api/apiPostCalls"
 
 const SlidersCreatePage: React.FC = () => {
     const [title, setTitle] = useState<string>("")
@@ -10,7 +11,15 @@ const SlidersCreatePage: React.FC = () => {
 
     const submit = () => {
         if(!title || !link) return
-        console.log(title, link, file);
+        const form = new FormData()
+        form.append("title", title)
+        form.append("link", link)
+        if(file) form.append("file", file[0])
+
+        createData("sliders", form, true)
+            .then(res => {console.log(res)})
+            .catch(err => console.log(err))
+
     }
 
     return (

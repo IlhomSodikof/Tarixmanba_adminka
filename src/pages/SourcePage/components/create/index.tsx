@@ -29,9 +29,9 @@ const CreateField: React.FC = () => {
         console.log(statehood);
     }
 
-    // const getAllCategory = () => {
-
-    // }
+    const getAllCategory = () => {
+        
+    }
 
     return (
         <Box>

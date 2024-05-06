@@ -26,7 +26,6 @@ const UIFile: React.FC<props> = ({fileChange}) => {
             />
             <label htmlFor="input-file" style={{
                 display: "flex",
-                // flexDirection: "column"
             }}>
                 <Button variant="contained" component="span">Upload File</Button>
                 <Typography sx={{

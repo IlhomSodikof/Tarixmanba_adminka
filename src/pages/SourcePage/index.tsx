@@ -4,14 +4,14 @@ import { useState } from "react"
 import { Box } from "@mui/material"
 // components
 import DisplayData from "../../components/displayData"
-import Search from "./components/search"
+import Search from "../../ui-components/search"
 import TableCells from "../../components/displayData/tableCells"
 // const
 import { headers } from "./constants/headers"
 // types
 // hooks
 import { useDebounce } from "../../hooks/useDebounce"
-import useFetch from "../../hooks/useFetch"
+import useFetchGetAllDatas from "../../hooks/useFetchGetAllDatas"
 import UIHeaders from "../../ui-components/headers"
 
 const Source: React.FC = () => {
@@ -21,7 +21,7 @@ const Source: React.FC = () => {
 
     const [page, setPage] = useState<number>(1)
 
-    const {data, loading, count} = useFetch("resource", page)
+    const {data, loading, count} = useFetchGetAllDatas("resource", page, debouncedSearch)
 
     const result = data && data.map((info: any) => {
         return (
@@ -39,7 +39,7 @@ const Source: React.FC = () => {
                 headersDisplay={<UIHeaders headers={headers} />} 
                 loading={loading}
                 result={result}
-                data={data}
+                data={data || []}
                 page={page}
                 updatePage={e => setPage(e)}
             />

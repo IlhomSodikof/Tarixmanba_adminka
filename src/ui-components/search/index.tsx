@@ -1,12 +1,13 @@
 import { Box, Stack, TextField, Typography } from "@mui/material"
 import { ChangeEvent, useState } from "react"
-import UIButton from "../../../../ui-components/button"
+import UIButton from "../button"
 
 interface props {
-    updateSearch: (e: string) => void
+    updateSearch: (e: string) => void,
+    isCreate?: boolean
 }
 
-const Search: React.FC<props> = ({updateSearch}) => {
+const UISearch: React.FC<props> = ({updateSearch, isCreate=true}) => {
     const [search, setSearch] = useState<string>("")
     
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -31,12 +32,14 @@ const Search: React.FC<props> = ({updateSearch}) => {
                     sx={{maxWidth: "400px", width: "100%"}} 
                 />
             </Box>
-            <UIButton 
-                text="Create"
-                to="create"
-            />
+            {isCreate && (
+                <UIButton 
+                    text="Create"
+                    to="create"
+                />
+            )}
         </Stack>
     )
 }
 
-export default Search
+export default UISearch

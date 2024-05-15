@@ -20,12 +20,13 @@ const PopperModal: React.FC<PopperModalProps> = ({open, info, changeOpen, delete
         <Box>
             {Boolean(open) && (
                 <Paper 
-                onClick={() => changeOpen(false)}
-                sx={{
-                    backgroundColor: "transparent",
-                    position: "absolute",
-                    inset: 0
-                }}></Paper>
+                    onClick={() => changeOpen(false)}
+                    sx={{
+                        backgroundColor: "transparent",
+                        position: "absolute",
+                        inset: 0
+                    }}
+                ></Paper>
             )}
             <CustomPopper
                 placement="bottom-end"
@@ -36,7 +37,7 @@ const PopperModal: React.FC<PopperModalProps> = ({open, info, changeOpen, delete
                 }}
             >
                 <Button variant="outlined">
-                    <Link to={`edit/${info.title.toLowerCase().split(" ").join("-")}`} state={info.id}>Edit</Link>
+                    <Link to={`edit/${info.id}`} state={info.id}>Edit</Link>
                 </Button>
                 <Button variant="outlined" color="error" onClick={handleDelete}>Delete</Button>
             </CustomPopper>

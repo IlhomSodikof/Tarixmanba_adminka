@@ -1,17 +1,21 @@
 import { Box, TableCell, Typography } from "@mui/material"
-import UIButton from "../../ui-components/button"
 import { headers } from "./constants/headers"
 import { DisplayDataHeaders } from "../../types"
 import { useMemo, useState } from "react"
 import DisplayData from "../../components/displayData"
 import TableCells from "../../components/displayData/tableCells"
 import { getFilteredData } from "../../utils/getFilteredData"
-import useFetch from "../../hooks/useFetch"
+import useFetchGetAllDatas from "../../hooks/useFetchGetAllDatas"
+import { useDebounce } from "../../hooks/useDebounce"
+import UISearch from "../../ui-components/search"
 
 const LibraryCategories: React.FC = () => {
     const [page, setPage] = useState<number>(1)
+    const [search, setSearch] = useState<string>("")
 
-    const {data, loading, count} = useFetch("library_category", page)
+    const debouncedSearch = useDebounce(search)
+
+    const {data, loading, count} = useFetchGetAllDatas("library_category", page, debouncedSearch)
 
     const totalHeaders = useMemo(() => {
         return headers.reduce((sum, header) => sum + header.space, 1)
@@ -38,26 +42,16 @@ const LibraryCategories: React.FC = () => {
 
     return (
         <Box>
-            <Box sx={{
-                display: "flex",
-                justifyContent: "end"
-            }}>
-                <UIButton 
-                    text="Create"
-                    to="create"
-                />
-            </Box>
-            {data && data.length > 0 && (
-                <DisplayData 
-                    count={count}
-                    headersDisplay={headersDisplay}
-                    loading={loading}
-                    data={data}
-                    result={result}
-                    page={page}
-                    updatePage={e => setPage(e)}
-                />
-            )}
+            <UISearch updateSearch={e => setSearch(e)} />
+            <DisplayData 
+                count={count}
+                headersDisplay={headersDisplay}
+                loading={loading}
+                data={data || []}
+                result={result}
+                page={page}
+                updatePage={e => setPage(e)}
+            />
         </Box>
     )
 }

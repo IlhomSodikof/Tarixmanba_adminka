@@ -30,7 +30,7 @@ const DisplayData = ({headersDisplay, loading, result, data, page, updatePage, c
                     {result}
                 </TableBody>
             </Table>
-            {!loading ? (
+            {data.length > 0 ? (
                 <Box>
                     <Box sx={{
                         display: "flex",

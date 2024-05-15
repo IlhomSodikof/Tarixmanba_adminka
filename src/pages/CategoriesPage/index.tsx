@@ -1,25 +1,29 @@
 import { useState, useMemo } from "react"
-import { DisplayDataProps } from "../../types/categories"
 import { getFilteredData } from "../../utils/getFilteredData"
 import TableCells from "../../components/displayData/tableCells"
 import { headers } from "./constants/headers"
 import { DisplayDataHeaders } from "../../types"
 import { Box, TableCell, Typography } from "@mui/material"
-import UIButton from "../../ui-components/button"
 import DisplayData from "../../components/displayData"
-import useFetch from "../../hooks/useFetch"
+import useFetchGetAllDatas from "../../hooks/useFetchGetAllDatas"
+import { useDebounce } from "../../hooks/useDebounce"
+import UISearch from "../../ui-components/search"
 
 const Categories: React.FC = () => {
+    const [search, setSearch] = useState<string>("")
+
+    const debouncedSearch = useDebounce(search)
+
     const [page, setPage] = useState<number>(1)
 
-    const {data, loading, count} = useFetch("category", page)
+    const {data, loading, count} = useFetchGetAllDatas("category", page, debouncedSearch)
 
     const totalHeaders = useMemo(() => {
         return headers.reduce((sum, header) => sum + header.space, 1)
     }, [headers])
 
 
-    const result = data && data.length > 0 && data.map((info: DisplayDataProps) => {
+    const result = data && data.length > 0 && data.map((info: any) => {
         const filtered = getFilteredData({data: info, keys: ["id", "icon", "title"]});
 
         return (
@@ -39,20 +43,12 @@ const Categories: React.FC = () => {
 
     return (
         <Box>
-            <Box sx={{
-                display: "flex",
-                justifyContent: "end"
-            }}>
-                <UIButton 
-                    text="Create"
-                    to="create"
-                />
-            </Box>
+            <UISearch updateSearch={e => setSearch(e)} />
             <DisplayData 
                 count={count}
                 headersDisplay={headersDisplay}
                 loading={loading}
-                data={data}
+                data={data || []}
                 result={result}
                 page={page}
                 updatePage={e => setPage(e)}

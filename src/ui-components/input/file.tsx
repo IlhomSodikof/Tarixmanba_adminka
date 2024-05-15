@@ -2,15 +2,17 @@ import { Box, Button, Typography } from "@mui/material"
 import { ChangeEvent, useState } from "react"
 
 interface props {
-    fileChange: (e: FileList | null) => void
+    fileChange: (e: FileList | null) => void,
+    defaultFile?: string | null
 }
 
-const UIFile: React.FC<props> = ({fileChange}) => {
-    const [file, setFile] = useState<FileList | null>(null)
+const UIFile: React.FC<props> = ({fileChange, defaultFile}) => {
+    const [name, setName] = useState<string>(defaultFile && defaultFile.split("/")[defaultFile.split("/").length - 1] || "")
+
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if(!e.target.files) return
         fileChange(e.target.files)
-        setFile(e.target.files)
-        console.log(e.target.files && e.target.files[0]);
+        setName(e.target.files[0].name)
     }
     
     return (
@@ -35,7 +37,7 @@ const UIFile: React.FC<props> = ({fileChange}) => {
                     flexGrow: 1,
                     backgroundColor: "primary.contrastText",
                     padding: "0 10px"
-                }}>{file ? file[0].name : "Nothing is chosen"}</Typography>
+                }}>{name}</Typography>
             </label>
         </Box>
     )

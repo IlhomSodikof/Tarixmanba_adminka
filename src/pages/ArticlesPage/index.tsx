@@ -1,22 +1,21 @@
-import { Box, TableCell, Typography } from "@mui/material"
-import UIButton from "../../ui-components/button"
+import { Box } from "@mui/material"
 import DisplayData from "../../components/displayData"
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import TableCells from "../../components/displayData/tableCells"
 import { headers } from "./constants/headers"
-import { DisplayDataHeaders } from "../../types"
 import { getFilteredData } from "../../utils/getFilteredData"
-import useFetch from "../../hooks/useFetch"
+import useFetchGetAllDatas from "../../hooks/useFetchGetAllDatas"
+import UIHeaders from "../../ui-components/headers"
+import Search from "../../ui-components/search"
+import { useDebounce } from "../../hooks/useDebounce"
 
 const Article: React.FC = () => {
     const [page, setPage] = useState<number>(1)
+    const [search, setSearch] = useState<string>("")
 
-    const {data, loading, count} = useFetch("news", page)
+    const debouncedSearch = useDebounce(search)
 
-    const totalHeaders = useMemo(() => {
-        return headers.reduce((sum, header) => sum + header.space, 1)
-    }, [headers])
-    
+    const {data, loading, count} = useFetchGetAllDatas("news", page, debouncedSearch)
 
     const result = data && data.length > 0 && data.map((info: any) => {
         const filtered = getFilteredData({data: info, keys: ["title", "created_time", "updated_time"]})
@@ -26,32 +25,14 @@ const Article: React.FC = () => {
         )
     })
 
-    const headersDisplay = headers.map((header: DisplayDataHeaders) => {
-        return (
-            <TableCell key={header.text} sx={{
-                width: `${header.space/totalHeaders*90}%`
-            }}>
-                <Typography>{header.text}</Typography>
-            </TableCell>
-        )
-    })
-
     return (
         <Box>
-            <Box sx={{
-                display: "flex",
-                justifyContent: "end"
-            }}>
-                <UIButton 
-                    text="Create"
-                    to="create"
-                />
-            </Box>
+            <Search updateSearch={e => setSearch(e)} />
             <DisplayData
                 count={count} 
-                headersDisplay={headersDisplay}
+                headersDisplay={<UIHeaders headers={headers} />}
                 loading={loading}
-                data={data}
+                data={data || []}
                 result={result}
                 page={page}
                 updatePage={e => setPage(e)}

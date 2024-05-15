@@ -1,14 +1,15 @@
 import { Box, Typography, Button } from "@mui/material"
 import UISelect from "../../ui-components/input/select"
-import { useEffect, useMemo, useState } from "react"
+import { useState } from "react"
 import UIInput from "../../ui-components/input/input"
 import UIFile from "../../ui-components/input/file"
-import { getAllDatas } from "../../api/apiGetCalls"
 import Loading from "../../components/loading"
 import { createData } from "../../api/apiPostCalls"
+import useFetchGetAllDatas from "../../hooks/useFetchGetAllDatas"
+import { getAllFilteredLists } from "../../utils/getFilteredList"
 
 const LibrariesCreatePage: React.FC = () => {
-    const [libraryCategory, setLibraryCategory] = useState<{id: string, value: string}>({})
+    const [libraryCategory, setLibraryCategory] = useState<{id: string, value: string} | null>(null)
     const [title, setTitle] = useState<string>("")
     const [author, setAuthor] = useState<string>("")
     const [type, setType] = useState<string>("")
@@ -18,28 +19,10 @@ const LibrariesCreatePage: React.FC = () => {
     const [image, setImage] = useState<FileList | null>(null)
     const [file, setFile] = useState<FileList | null>(null)
 
-    const [libraryCategoryList, setLibraryCategoryList] = useState<string[]>([])
+    const {data, loading} = useFetchGetAllDatas("library_category")
+    
 
-    const [loading, setLoading] = useState<boolean>(true)
-
-    useEffect(() => {
-        getAllDatas("library_category")
-            .then(res => {setLibraryCategoryList(res.results)})
-            .catch(err => console.log(err))
-            .finally(() => setLoading(false))
-    }, [])
-
-    const getAllLibraryCategoryList = useMemo(() => {
-        // if(libraryCategoryList.length < 1) return []
-        const result: {id: string, value: string}[] = []
-        libraryCategoryList.map(list => {
-            result.push({
-                id: list.id,
-                value: list.title
-            })
-        })
-        return result
-    }, [libraryCategoryList])
+    const allLists = getAllFilteredLists({data})
 
     const handleSubmit = () => {
         if(!libraryCategory || !title || !author || !type || !year || !country || !language) {
@@ -66,12 +49,11 @@ const LibrariesCreatePage: React.FC = () => {
 
     return (
         <Box>
-            {/* getAllLibraryCategoryList.length > 0 && */}
             {loading && <Loading />}
             {!loading && (
                 <Box>
                     <Typography sx={{margin: "5px 0"}}><span style={{color: "red"}}>*</span> Select Library Category</Typography>
-                    <UISelect options={getAllLibraryCategoryList} placeholder="" updateValue={e => {
+                    <UISelect options={allLists} placeholder="" updateValue={e => {
                         const libCat = { id: e.id, value: e.value }
                         setLibraryCategory(libCat)
                     }}/>

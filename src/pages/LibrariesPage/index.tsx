@@ -4,14 +4,18 @@ import TableCells from "../../components/displayData/tableCells"
 import { headers } from "./constants/headers"
 import { DisplayDataHeaders } from "../../types"
 import { Box, TableCell, Typography } from "@mui/material"
-import UIButton from "../../ui-components/button"
 import DisplayData from "../../components/displayData"
-import useFetch from "../../hooks/useFetch"
+import useFetchGetAllDatas from "../../hooks/useFetchGetAllDatas"
+import UISearch from "../../ui-components/search"
+import { useDebounce } from "../../hooks/useDebounce"
 
 const Libraries: React.FC = () => {
     const [page, setPage] = useState<number>(1)
+    const [search, setSearch] = useState<string>("")
 
-    const {data, loading, count} = useFetch("library", page)
+    const debouncedSearch = useDebounce(search)
+
+    const {data, loading, count} = useFetchGetAllDatas("library", page, debouncedSearch)
 
     const totalHeaders = useMemo(() => {
         return headers.reduce((sum, header) => sum + header.space, 1)
@@ -37,20 +41,12 @@ const Libraries: React.FC = () => {
 
     return (
         <Box>
-            <Box sx={{
-                display: "flex",
-                justifyContent: "end"
-            }}>
-                <UIButton 
-                    text="Create"
-                    to="create"
-                />
-            </Box>
+            <UISearch updateSearch={e => setSearch(e)} />
             <DisplayData
                 count={count} 
                 headersDisplay={headersDisplay}
                 loading={loading}
-                data={data}
+                data={data || []}
                 result={result}
                 page={page}
                 updatePage={e => setPage(e)}

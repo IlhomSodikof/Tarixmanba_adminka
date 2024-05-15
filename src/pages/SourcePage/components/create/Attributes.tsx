@@ -62,7 +62,7 @@ const reducer = (state: State, action: Action) => {
             }
             return state
         case "remove":
-            return state.attributes.filter((att: Attribute) => att.id !== action.id)
+            return state.filter((att: Attribute) => att.id !== action.id)
         case "edit":
             return {
                 ...state,
@@ -112,7 +112,7 @@ const Attributes: React.FC = () => {
             <Typography sx={{margin: "15px 0 5px"}}><span style={{color: "red"}}>*</span> Attributes</Typography>
             {state.attributes ? state.attributes.map((attribute: Attribute, index: number) => {
                 return (
-                    <Stack direction={"row"} gap={2} sx={{marginBottom: "10px"}} key={attribute.id}>                            
+                    <Stack direction={"row"} gap={2} sx={{marginBottom: "10px"}} key={index}>                            
                         <UIInput updateValue={(e) => updateAttribute(index, "title", e)} placeholder="Title" />
                         <UIInput updateValue={(e) => updateAttribute(index, "description", e)} placeholder="Description" />
                         <UIInput type="number" fullWidth={false} updateValue={(e) => updateAttribute(index, "num", e)} placeholder="Sequence" defaultValue={attribute.num} /> 

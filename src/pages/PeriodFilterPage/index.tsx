@@ -1,17 +1,21 @@
 import { Box, TableCell, Typography } from "@mui/material"
-import UIButton from "../../ui-components/button"
 import DisplayData from "../../components/displayData"
 import { useMemo, useState } from "react"
 import { headers } from "./constants/headers"
 import { DisplayDataHeaders } from "../../types"
 import { getFilteredData } from "../../utils/getFilteredData"
 import TableCells from "../../components/displayData/tableCells"
-import useFetch from "../../hooks/useFetch"
+import useFetchGetAllDatas from "../../hooks/useFetchGetAllDatas"
+import UISearch from "../../ui-components/search"
+import { useDebounce } from "../../hooks/useDebounce"
 
 const PeriodFilter: React.FC = () => {
     const [page, setPage] = useState<number>(1)
+    const [search, setSearch] = useState<string>("")
 
-    const {data, loading, count} = useFetch("period_filter", page)
+    const debouncedSearch = useDebounce(search)
+
+    const {data, loading, count} = useFetchGetAllDatas("period_filter", page, debouncedSearch)
 
     const totalHeaders = useMemo(() => {
         return headers.reduce((sum, header) => sum + header.space, 1)
@@ -37,20 +41,12 @@ const PeriodFilter: React.FC = () => {
 
     return (
         <Box>
-            <Box sx={{
-                display: "flex",
-                justifyContent: "end"
-            }}>
-                <UIButton 
-                    text="Create"
-                    to="create"
-                />
-            </Box>
+            <UISearch updateSearch={e => setSearch(e)} />
             <DisplayData
                 count={count} 
                 headersDisplay={headersDisplay}
                 loading={loading}
-                data={data}
+                data={data || []}
                 result={result}
                 page={page}
                 updatePage={e => setPage(e)}

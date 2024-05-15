@@ -1,27 +1,15 @@
 import instance from "./settings";
 
 export const createData = async (text: string, data: any, hasImage?: boolean) => {
-    if(hasImage) {
-        console.log(text, data, hasImage);
-        try {
-            const res = await instance.post(`${text}/create/`, data, {
-                headers: {
-                    "Content-Type": "multiplart/form-data"
-                }
-            })
-            return res.data
-        } catch (error) {
-            throw error
-        }    
-    }
+    const contentType = hasImage ? "multiplart/form-data" : "application/json"
     try {
         const res = await instance.post(`${text}/create/`, data, {
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": contentType
             }
         })
         return res.data
     } catch (error) {
         throw error
-    }
+    }    
 }

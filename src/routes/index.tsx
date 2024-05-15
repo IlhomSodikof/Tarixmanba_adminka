@@ -22,16 +22,19 @@ const CommentsPage = lazy(() => import("../pages/CommentsPage"))
 const LoginPage = lazy(() => import("../pages/LoginPage"))
 
 const SourceCreatePage = lazy(() => import("../pages/SourcePage/SourceCreatePage"))
-const SourceEditPage = lazy(() => import("../pages/SourcePage/SourceEditPage"))
 const ArticlesCreatePage = lazy(() => import("../pages/ArticlesPage/ArticlesCreatePage"));
 const CategoriesCreatePage = lazy(() => import("../pages/CategoriesPage/CategoriesCreatePage"))
 const LibraryCategoriesCreatePage = lazy(() => import("../pages/LibraryCategoriesPage/LibraryCategoriesCreatePage"))
-const LibraryCategoriesEditPage = lazy(() => import("../pages/LibraryCategoriesPage/LibraryCategoriesEditPage"))
 const LibrariesCreatePage = lazy(() => import("../pages/LibrariesPage/LibrariesCreatePage"))
 const SlidersCreatePage = lazy(() => import("../pages/SlidersPage/SlidersCreatePage"))
 const PeriodFilterCreatePage = lazy(() => import("../pages/PeriodFilterPage/PeriodFilterCreatePage"))
 const FilterCategoriesCreatePage = lazy(() => import("../pages/FilterCategoriesPage/FilterCategoriesCreatePage"))
 const FiltersCreatePage = lazy(() => import("../pages/FiltersPage/FiltersCreatePage"))
+
+const SourceEditPage = lazy(() => import("../pages/SourcePage/SourceEditPage"))
+const ArticlesEditPage = lazy(() => import("../pages/ArticlesPage/ArticlesEditPage"))
+const CategoriesEditPage = lazy(() => import("../pages/CategoriesPage/CategoriesEditPage"))
+const LibraryCategoriesEditPage = lazy(() => import("../pages/LibraryCategoriesPage/LibraryCategoriesEditPage"))
 
 const routes: RouteObject[] = [
     {
@@ -91,6 +94,14 @@ const routes: RouteObject[] = [
         )
     },
     {
+        path: "/articles/edit/:id",
+        element: (
+            <ProtectedRoute>
+                <ArticlesEditPage />
+            </ProtectedRoute>
+        )
+    },
+    {
         path: "/categories",
         element: (
             <ProtectedRoute>
@@ -103,6 +114,14 @@ const routes: RouteObject[] = [
         element: (
             <ProtectedRoute>
                 <CategoriesCreatePage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/categories/edit/:id",
+        element: (
+            <ProtectedRoute>
+                <CategoriesEditPage />
             </ProtectedRoute>
         )
     },

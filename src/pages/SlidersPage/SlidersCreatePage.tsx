@@ -17,8 +17,8 @@ const SlidersCreatePage: React.FC = () => {
         if(file) form.append("file", file[0])
 
         createData("sliders", form, true)
-            .then(res => {console.log(res)})
-            .catch(err => console.log(err))
+            .then(res => res)
+            .catch(err => err)
 
     }
 

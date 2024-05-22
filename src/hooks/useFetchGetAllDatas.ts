@@ -12,12 +12,11 @@ const useFetchGetAllDatas = (url: string, page: number = 1, search: string = "")
         setLoading(true)
         try {
             const response = await getAllDatas(`${url}/?title=${search}&page=${page.toString()}`)
-            console.log(response.results);
             
             setData(response.results)
             setCount(response.count)
         } catch (error: any) {
-            console.log("error", error.response.data);
+            return error
         } finally {
             setLoading(false)
         }

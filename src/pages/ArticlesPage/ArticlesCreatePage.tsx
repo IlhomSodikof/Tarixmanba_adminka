@@ -14,12 +14,9 @@ const ArticlesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit = 
     const [active, setActive] = useState<boolean>(false)
 
     const navigate = useNavigate()
-    console.log(file && file[0]);
-    
 
     const handleSubmit = () => {
         if(!title || !file && !isEdit) {
-            console.log("not full");
             return
         }
         setActive(true)
@@ -31,22 +28,21 @@ const ArticlesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit = 
         else form.append("file", data?.file)
         
         if(isEdit) {
-            console.log(form);
-            
             updateSingleData("news", data?.id, form, true)
-                .then(res => console.log(res))
-                .catch(err => console.log(err))
+                .then(res => res)
+                .catch(err => err)
                 .finally(() => {
                     setActive(false)
                 })
         }
         else{
             createData("news", form, true)
-                .then(() => navigate("/articles", {replace: true}))
-                .catch(err => console.log(err))
-                .finally(() => {
-                    setActive(false)
+                .then((res) => {
+                    navigate("/articles", {replace: true})
+                    return res
                 })
+                .catch(err => err)
+                .finally(() => setActive(false))
         }
 
     }
@@ -56,14 +52,14 @@ const ArticlesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit = 
             <Typography sx={{marginBottom: "10px"}}><span style={{color: "red"}}>*</span> Title</Typography>
             <UIInput updateValue={(e) => setTitle(e)} defaultValue={title} />
             <Typography sx={{margin: "20px 0 10px"}}>Content</Typography>
-            <img src={`http://161.35.219.128:8001${data?.file}`} alt="" />
+            {/* <img src={`http://161.35.219.128:8001${data?.file}`} alt="" width="100%" height="100%" /> */}
             {/* <UITinyMCE
                 updateMCE={(e) => setContent(e)}
             /> */}
             <UIInput updateValue={(e) => setContent(e)} defaultValue={content} />
             <Typography sx={{margin: "20px 0 10px"}}>File</Typography>
             <UIFile fileChange={(e) => setFile(e)} defaultFile={data?.file} />
-            <Button variant="contained" disabled={active} sx={{marginTop: "20px"}} onClick={handleSubmit}>Update</Button>
+            <Button variant="contained" disabled={active} sx={{marginTop: "20px"}} onClick={handleSubmit}>{isEdit ? "Update" : "Create"}</Button>
         </Box>
     )
 }

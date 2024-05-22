@@ -10,10 +10,9 @@ import { deleteItem } from "../../api/apiDeleteCalls";
 
 const PopperModal: React.FC<PopperModalProps> = ({open, info, changeOpen, deleteText}) => {
     const handleDelete = () => {
-        console.log(deleteText, info.id);
         deleteItem(deleteText, info.id)
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
+            .then(res => res)
+            .catch(err => err)
     }
 
     return (

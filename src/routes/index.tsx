@@ -18,6 +18,7 @@ const FilterCategoriesPage = lazy(() => import("../pages/FilterCategoriesPage"))
 const FiltersPage = lazy(() => import("../pages/FiltersPage"))
 const FeedbacksPage = lazy(() => import("../pages/FeedbacksPage"))
 const CommentsPage = lazy(() => import("../pages/CommentsPage"))
+const ProvincePage = lazy(() => import("../pages/ProvincePage"))
 
 const LoginPage = lazy(() => import("../pages/LoginPage"))
 
@@ -30,6 +31,7 @@ const SlidersCreatePage = lazy(() => import("../pages/SlidersPage/SlidersCreateP
 const PeriodFilterCreatePage = lazy(() => import("../pages/PeriodFilterPage/PeriodFilterCreatePage"))
 const FilterCategoriesCreatePage = lazy(() => import("../pages/FilterCategoriesPage/FilterCategoriesCreatePage"))
 const FiltersCreatePage = lazy(() => import("../pages/FiltersPage/FiltersCreatePage"))
+const ProvinceCreatePage = lazy(() => import("../pages/ProvincePage/ProvinceCreatePage"))
 
 const SourceEditPage = lazy(() => import("../pages/SourcePage/SourceEditPage"))
 const ArticlesEditPage = lazy(() => import("../pages/ArticlesPage/ArticlesEditPage"))
@@ -258,6 +260,22 @@ const routes: RouteObject[] = [
         element: (
             <ProtectedRoute>
                 <CommentsPage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/province",
+        element: (
+            <ProtectedRoute>
+                <ProvincePage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/province/create",
+        element: (
+            <ProtectedRoute>
+                <ProvinceCreatePage />
             </ProtectedRoute>
         )
     },

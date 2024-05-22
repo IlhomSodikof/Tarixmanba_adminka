@@ -32,7 +32,7 @@ const Filters: React.FC = () => {
     })
 
     const result = data && data.length > 0 && data.map((info: any) => {
-        const filtered = getFilteredData({data: info, keys: ["cat_title", "filter_category_name", "title", "created_time", "updated_time"]})
+        const filtered = getFilteredData({data: info, keys: ["cat_title", "filter_categories_name", "title", "created_time", "updated_time"]})
         
         return (
             <TableCells key={info.id} filtered={filtered} info={info} deleteText="filters" />      

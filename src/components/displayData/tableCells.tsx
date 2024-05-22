@@ -22,12 +22,16 @@ const TableCells: React.FC<props> = ({info, filtered, deleteText}) => {
         setOpen(open ? null : event.currentTarget);
     };
 
-    const cells = filtered.map((data, index) => {
+    const cells = filtered.map((data: string, index: number) => {        
         return (
             <TableCell key={index} sx={{
-                height: "100%"
+                height: "100%",
+                maxWidth: "400px",
+                textWrap: "wrap"
             }}>
-                <Typography>{data}</Typography>
+                {
+                    typeof data === "string" && data.includes("media") && data.includes("icons") ? <img src={data} alt={data} width={80} /> : <Typography>{data}</Typography>
+                }
             </TableCell>
         )
     })

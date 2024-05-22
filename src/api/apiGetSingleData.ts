@@ -7,7 +7,6 @@ export const getSingleData = async (text: string, id: string | number) => {
                 "Content-Type": "application/json"
             }
         })
-        console.log(res.data);
         
         return res.data
     } catch (error) {

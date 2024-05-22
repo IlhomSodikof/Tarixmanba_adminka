@@ -75,5 +75,10 @@ export const links: CustomLinks[] = [
         text: "Comments",
         to: "/comments",
         Icon: QuestionAnswerOutlined
+    },
+    {
+        text: "Province",
+        to: "/province",
+        Icon: StorageRounded
     }
 ]

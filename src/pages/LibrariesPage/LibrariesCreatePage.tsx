@@ -26,7 +26,6 @@ const LibrariesCreatePage: React.FC = () => {
 
     const handleSubmit = () => {
         if(!libraryCategory || !title || !author || !type || !year || !country || !language) {
-            console.log("nothing");
             return
         }
         
@@ -43,8 +42,8 @@ const LibrariesCreatePage: React.FC = () => {
         if(file) form.append("file", file[0])
 
         createData("library", form, true)
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
+            .then(res => res)
+            .catch(err => err)
     }
 
     return (

@@ -4,42 +4,52 @@ import UIFile from "../../ui-components/input/file"
 import UISwitch from "../../ui-components/input/switch"
 import { useState } from "react"
 import { createData } from "../../api/apiPostCalls"
+import { updateSingleData } from "../../api/apiUpdateCalls"
 
-const CategoriesCreatePage: React.FC = () => {
+const CategoriesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) => {
     const [icon, setIcon] = useState<FileList | null>(null)
-    const [title, setTitle] = useState<string>("")
-    const [order, setOrder] = useState<number>(0)
-    const [interactive, setInteractive] = useState<boolean>(false)
+    const [title, setTitle] = useState<string>(data?.title || "")
+    const [order, setOrder] = useState<number>(data?.order || 0)
+    const [interactive, setInteractive] = useState<boolean>(data?.interactive || false)
 
     const handleSubmit = () => {
-        if(!icon || !title || !order) {
-            console.log("change it");
+        if(!isEdit && !icon || !title || !order) {
             return
         }
-        const data = new FormData()
-        data.append("icon", icon[0], icon[0].name)
-        data.append("title", title)
-        data.append("order", order.toString())
-        data.append("interactive", interactive.toString())
+        const form = new FormData()
+        if(icon && icon[0]) form.append("file", icon[0], icon[0].name)
+        else form.append("file", data?.icon)
+        form.append("title", title)
+        form.append("order", order.toString())
+        form.append("interactive", interactive.toString())
 
-        createData("category", data, true)
-            .then(res => console.log(res.data))
-            .catch(err => console.log(err))
-            .finally(() => console.log("working", data, icon[0].type, icon))
+        if(isEdit) {
+            updateSingleData("category", data?.id, form, true)
+                .then(res => res)
+                .catch(err => err)
+                .finally(() => {
+                    // setActive(false)
+                })
+        }else{
+            createData("category", form, true)
+                .then(res => res)
+                .catch(err => err)
+                .finally(() => {})
+        }
     }
 
     return (
         <Box>
             <Typography sx={{margin: "10px 0"}}><span style={{color: "red"}}>*</span> Title</Typography>
-            <UIInput updateValue={(e) => setTitle(e)} />
+            <UIInput updateValue={(e) => setTitle(e)} defaultValue={title} />
             <Typography sx={{marginBottom: "20px"}}></Typography>
-            <UIFile fileChange={(e) => setIcon(e)} />
+            <UIFile fileChange={(e) => setIcon(e)} defaultFile={data?.icon} />
             <Typography sx={{margin: "20px 0 10px"}}><span style={{color: "red"}}>*</span> Order</Typography>
-            <UIInput updateValue={(e: any) => setOrder(e)} type="number" />
+            <UIInput updateValue={(e: any) => setOrder(e)} type="number" defaultValue={order} />
             <Typography sx={{margin: "10px 0"}}>Interactive Map</Typography>
             <UISwitch value={interactive} changeValue={(e) => setInteractive(e)} />
 
-            <Button variant="contained" onClick={handleSubmit} sx={{marginTop: "20px"}}>Create</Button>
+            <Button variant="contained" onClick={handleSubmit} sx={{marginTop: "20px"}}>{isEdit ? "Edit" : "Create"}</Button>
         </Box>
     )
 }

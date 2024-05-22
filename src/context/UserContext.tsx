@@ -15,7 +15,7 @@ interface UserType {
 export const UserContext = createContext<UserContextType | undefined>(undefined)
 
 export default function UserContextProvider({children}: UserContextProviderProps) {
-    const [user, setUser] = useState<UserType>({email: localStorage.getItem("user") || "user@gmail.com"});
+    const [user, setUser] = useState<UserType>({email: localStorage.getItem("user")});
  
     return (
         <UserContext.Provider

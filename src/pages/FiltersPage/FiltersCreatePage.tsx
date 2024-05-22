@@ -14,10 +14,8 @@ const FiltersCreatePage: React.FC = () => {
         getAllDatas("filter_category")
             .then(res => {
                 setCategoryList(res.results)
-                console.log(res);
             })
-            .catch(err => console.log(err))
-            .finally(() => console.log("working"))
+            .catch(err => err)
     }, [])
 
     const getAllCategoryList = useMemo(() => {
@@ -35,9 +33,8 @@ const FiltersCreatePage: React.FC = () => {
         if(!title || !filterCategory) return
 
         createData("filters", {title, filter_category: filterCategory.id})
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
-            .finally(() => console.log(title, filterCategory.id))
+            .then(res => res)
+            .catch(err => err)
     }
 
     return (

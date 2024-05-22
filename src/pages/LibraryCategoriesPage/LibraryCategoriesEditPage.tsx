@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { getSingleLibraryCategories } from "../../api/apiGetCalls";
+import { getSingleData } from "../../api/apiGetSingleData";
 
 const LibraryCategoriesEditPage: React.FC = () => {
     const id = useLocation().state;
@@ -8,13 +8,11 @@ const LibraryCategoriesEditPage: React.FC = () => {
     const [data, setData] = useState<any[]>([])
 
     useEffect(() => {
-        getSingleLibraryCategories(id)
-            .then(res => {
-                console.log(res.results);
+        getSingleData("library_category", id)
+            .then((res: any) => {
                 setData(res.results)
             })
-            .catch(err => console.log(err))
-            .finally(() => console.log(data))
+            .catch((err: any) => err)
     })
     
     return (

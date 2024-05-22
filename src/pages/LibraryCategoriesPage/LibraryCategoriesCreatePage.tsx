@@ -14,8 +14,8 @@ const LibraryCategoriesCreatePage: React.FC = () => {
         if(!title) return
         setActive(true)
         createData("library_category", {title})
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
+            .then(res => res)
+            .catch(err => err)
             .finally(() => {
                 setActive(false)
                 navigate("/library-categories", {replace: true})

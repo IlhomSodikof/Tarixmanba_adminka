@@ -13,8 +13,7 @@ const FilterCategoriesCreatePage: React.FC = () => {
     useEffect(() => {
         getAllDatas("category")
             .then(res => setCategoryList(res.results))
-            .catch(err => console.log(err))
-            // .finally(() => console.log("working"))
+            .catch(err => err)
     }, [])
 
     const getAllCategoryList = useMemo(() => {
@@ -36,8 +35,8 @@ const FilterCategoriesCreatePage: React.FC = () => {
         form.append("category", category.id)
 
         createData("filter_category", form)
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
+            .then(res => res)
+            .catch(err => err)
     }
 
     return (

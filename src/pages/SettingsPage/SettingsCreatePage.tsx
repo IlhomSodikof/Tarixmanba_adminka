@@ -10,7 +10,6 @@ const SettingsCreatePage: React.FC = () => {
 
     const submit = () => {
         if(!title || !link) return
-        console.log(title, link, file);
     }
 
     return (

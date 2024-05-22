@@ -1,19 +1,18 @@
 import { Box, Button, FormControl, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
-// import { useUserContext } from "../../context/UserContext"
+import { useUserContext } from "../../context/UserContext"
 import { CustomBox, CustomInnerBox } from "./custom.style";
 import UIInput from "../../ui-components/input/input";
 import { ChangeEvent, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Auth: React.FC = () => {
-    // const {user, setUser} = useUserContext()
+    const {user, setUser} = useUserContext()
 
-    const [username, setUsername] = useState<string>("")
+    const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [showPassword, setShowPassword] = useState<boolean>(false)
     
     const handleClickShowPassword = () => {
-        console.log("clicked");
         setShowPassword(!showPassword)
     };
 
@@ -22,8 +21,9 @@ const Auth: React.FC = () => {
     };
 
     const submit = () => {
-        if(!username || !password) return
-        console.log(username, password);
+        if(!email || !password) return
+        setUser({email})
+        localStorage.setItem("user", email)
     }
 
     return (
@@ -39,7 +39,7 @@ const Auth: React.FC = () => {
                         <Typography sx={{color: "red"}}>*</Typography>
                         <Typography>Login</Typography>
                     </Box>
-                    <UIInput updateValue={e => setUsername(e)} />
+                    <UIInput updateValue={e => setEmail(e)} type="email" />
                     <Box sx={{
                         display: "flex",
                         gap: "10px",

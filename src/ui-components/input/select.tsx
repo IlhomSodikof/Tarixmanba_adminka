@@ -8,8 +8,6 @@ interface props {
 }
 
 const UISelect: React.FC<props> = ({options, placeholder, updateValue, disabled=true}) => {
-    // if(placeholder.includes("filter category")) console.log(options, placeholder);
-    
     const handleInput = (_e: any, value: {[x: string]: string}) => {
         updateValue(value)
     }

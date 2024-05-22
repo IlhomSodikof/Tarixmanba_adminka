@@ -1,13 +1,16 @@
-import { Box, Button, Stack, Typography } from "@mui/material"
+import { Box, Button, Typography } from "@mui/material"
 import { useState } from "react"
 import UIInput from "../../ui-components/input/input"
+import { createData } from "../../api/apiPostCalls"
 
 const PeriodFilterCreatePage: React.FC = () => {
     const [title, setTitle] = useState<string>("")
 
     const submit = () => {
         if(!title) return
-        console.log(title);
+        createData("period_filter", {title})
+            .then(res => res)
+            .catch(err => err)
     }
 
     return (

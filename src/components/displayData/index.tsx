@@ -17,9 +17,6 @@ interface props {
 const DisplayData = ({headersDisplay, loading, result, data, page, updatePage, count}: props) => {
     if(loading || data.length < 0) return <Loading />
 
-    console.log(data, loading, Math.ceil(data.length/10));
-    
-
     return (
         <TableContainer sx={{marginTop: "40px"}}>
             <Table sx={{width: "100%"}}>

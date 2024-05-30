@@ -12,6 +12,7 @@ const LibraryCategoriesPage = lazy(() => import("../pages/LibraryCategoriesPage"
 const LibrariesPage = lazy(() => import("../pages/LibrariesPage"))
 const SlidersPage = lazy(() => import("../pages/SlidersPage"))
 const SettingsPage = lazy(() => import("../pages/SettingsPage"))
+const SettingsCategoryPage = lazy(() => import("../pages/SettingsCategory"))
 const PagesPage = lazy(() => import("../pages/PagesPage"))
 const PeriodFilterPage = lazy(() => import("../pages/PeriodFilterPage"))
 const FilterCategoriesPage = lazy(() => import("../pages/FilterCategoriesPage"))
@@ -28,6 +29,8 @@ const CategoriesCreatePage = lazy(() => import("../pages/CategoriesPage/Categori
 const LibraryCategoriesCreatePage = lazy(() => import("../pages/LibraryCategoriesPage/LibraryCategoriesCreatePage"))
 const LibrariesCreatePage = lazy(() => import("../pages/LibrariesPage/LibrariesCreatePage"))
 const SlidersCreatePage = lazy(() => import("../pages/SlidersPage/SlidersCreatePage"))
+const SettingsCreatePage = lazy(() => import("../pages/SettingsPage/SettingsCreatePage"))
+const SettingsCategoryCreatePage = lazy(() => import("../pages/SettingsCategory/SettingsCategoryCreatePage"))
 const PeriodFilterCreatePage = lazy(() => import("../pages/PeriodFilterPage/PeriodFilterCreatePage"))
 const FilterCategoriesCreatePage = lazy(() => import("../pages/FilterCategoriesPage/FilterCategoriesCreatePage"))
 const FiltersCreatePage = lazy(() => import("../pages/FiltersPage/FiltersCreatePage"))
@@ -37,6 +40,14 @@ const SourceEditPage = lazy(() => import("../pages/SourcePage/SourceEditPage"))
 const ArticlesEditPage = lazy(() => import("../pages/ArticlesPage/ArticlesEditPage"))
 const CategoriesEditPage = lazy(() => import("../pages/CategoriesPage/CategoriesEditPage"))
 const LibraryCategoriesEditPage = lazy(() => import("../pages/LibraryCategoriesPage/LibraryCategoriesEditPage"))
+const LibrariesEditPage = lazy(() => import("../pages/LibrariesPage/LibrariesEditPage"))
+const SlidersEditPage = lazy(() => import("../pages/SlidersPage/SlidersEditPage"))
+const PeriodFilterEditPage = lazy(() => import("../pages/PeriodFilterPage/PeriodFilterEditPage"))
+const FilterCategoriesEditPage = lazy(() => import("../pages/FilterCategoriesPage/FilterCategoriesEditPage"))
+const FiltersEditPage = lazy(() => import("../pages/FiltersPage/FiltersEditPage"))
+const ProvinceEditPage = lazy(() => import("../pages/ProvincePage/ProvinceEditPage"))
+const SettingsCategoryEditPage = lazy(() => import("../pages/SettingsCategory/SettingsCategoryEditPage"))
+const SettingsEditPage = lazy(() => import("../pages/SettingsPage/SettingsEditPage"))
 
 const routes: RouteObject[] = [
     {
@@ -168,6 +179,14 @@ const routes: RouteObject[] = [
         )
     },
     {
+        path: "/libraries/edit/:id",
+        element: (
+            <ProtectedRoute>
+                <LibrariesEditPage />
+            </ProtectedRoute>
+        )
+    },
+    {
         path: "/sliders",
         element: (
             <ProtectedRoute>
@@ -184,10 +203,58 @@ const routes: RouteObject[] = [
         )
     },
     {
+        path: "/sliders/edit/:id",
+        element: (
+            <ProtectedRoute>
+                <SlidersEditPage />
+            </ProtectedRoute>
+        )
+    },
+    {
         path: "/settings",
         element: (
             <ProtectedRoute>
                 <SettingsPage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/settings/create",
+        element: (
+            <ProtectedRoute>
+                <SettingsCreatePage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/settings/edit/:id",
+        element: (
+            <ProtectedRoute>
+                <SettingsEditPage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/settings-category",
+        element: (
+            <ProtectedRoute>
+                <SettingsCategoryPage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/settings-category/create",
+        element: (
+            <ProtectedRoute>
+                <SettingsCategoryCreatePage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/settings-category/edit/:id",
+        element: (
+            <ProtectedRoute>
+                <SettingsCategoryEditPage />
             </ProtectedRoute>
         )
     },
@@ -216,6 +283,14 @@ const routes: RouteObject[] = [
         )
     },
     {
+        path: "/period-filter/edit/:id",
+        element: (
+            <ProtectedRoute>
+                <PeriodFilterEditPage />
+            </ProtectedRoute>
+        )
+    },
+    {
         path: "/filter-categories",
         element: (
             <ProtectedRoute>
@@ -232,6 +307,14 @@ const routes: RouteObject[] = [
         )
     },
     {
+        path: "/filter-categories/edit/:id",
+        element: (
+            <ProtectedRoute>
+                <FilterCategoriesEditPage />
+            </ProtectedRoute>
+        )
+    },
+    {
         path: "/filters",
         element: (
             <ProtectedRoute>
@@ -244,6 +327,14 @@ const routes: RouteObject[] = [
         element: (
             <ProtectedRoute>
                 <FiltersCreatePage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/filters/edit/:id",
+        element: (
+            <ProtectedRoute>
+                <FiltersEditPage />
             </ProtectedRoute>
         )
     },
@@ -276,6 +367,14 @@ const routes: RouteObject[] = [
         element: (
             <ProtectedRoute>
                 <ProvinceCreatePage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/province/edit/:id",
+        element: (
+            <ProtectedRoute>
+                <ProvinceEditPage />
             </ProtectedRoute>
         )
     },

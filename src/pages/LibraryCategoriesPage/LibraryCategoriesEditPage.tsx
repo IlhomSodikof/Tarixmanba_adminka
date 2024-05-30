@@ -1,24 +1,20 @@
-import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { getSingleData } from "../../api/apiGetSingleData";
+import useFetchGetSingleData from "../../hooks/useFetchGetSingleData";
+import { Box } from "@mui/material";
+import LibraryCategoriesCreatePage from "./LibraryCategoriesCreatePage";
 
 const LibraryCategoriesEditPage: React.FC = () => {
     const id = useLocation().state;
 
-    const [data, setData] = useState<any[]>([])
+    const {data} = useFetchGetSingleData("library-categories", id)
+    console.log(data);
 
-    useEffect(() => {
-        getSingleData("library_category", id)
-            .then((res: any) => {
-                setData(res.results)
-            })
-            .catch((err: any) => err)
-    })
+    if(!data) return <h2>No data</h2>
     
     return (
-        <>
-            {JSON.stringify(data)}
-        </>
+        <Box>
+            <LibraryCategoriesCreatePage isEdit data={data} />
+        </Box>
     )
 }
 

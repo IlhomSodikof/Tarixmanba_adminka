@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import LogoutIcon from '@mui/icons-material/Logout';
 import UILink from "../../ui-components/link";
 import { CustomAppBar, CustomLogoutBox } from './custom.style';

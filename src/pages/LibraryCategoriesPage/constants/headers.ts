@@ -3,15 +3,15 @@ import { DisplayDataHeaders } from "../../../types";
 export const headers: DisplayDataHeaders[] = [
     {
         text: "Title",
-        space: 7
+        space: 14
     },
     {
         text: "Created",
-        space: 2
+        space: 4
     },
     {
         text: "Updated",
-        space: 2
+        space: 4
     },
     {
         text: "",

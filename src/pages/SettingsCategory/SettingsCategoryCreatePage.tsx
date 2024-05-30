@@ -5,43 +5,48 @@ import { createData } from "../../api/apiPostCalls"
 import { useNavigate } from "react-router-dom"
 import { updateSingleData } from "../../api/apiUpdateCalls"
 
-const PeriodFilterCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) => {
-    const navigate = useNavigate()
-
+const SettingsCategoryCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) => {
     const [title, setTitle] = useState<string>(data?.title || "")
     const [active, setActive] = useState<boolean>(false)
 
-    const submit = () => {
-        if(!title) return
+    const navigate = useNavigate()
 
+    const handleSubmit = async () => {
+        if(!title && !isEdit) {
+            return
+        }
         setActive(true)
 
+        const form = {title}
+
         if(isEdit) {
-            updateSingleData("period_filter", data?.id, {title})
+            updateSingleData("connection_category", data?.id, form)
                 .then(res => {
-                    navigate("/period-filter", {replace: true})
+                    navigate("/settings-category", {replace: true})
                     return res
                 })
                 .catch(err => console.log(err))
                 .finally(() => setActive(false))
-        }else {
-            createData("period_filter", {title})
-                .then(res => {
-                    navigate("/period-filter", {replace: true})
+        }
+        else{
+            createData("connection_category", form)
+                .then((res) => {
+                    navigate("/settings-category", {replace: true})
                     return res
                 })
                 .catch(err => err)
                 .finally(() => setActive(false))
         }
+
     }
 
     return (
         <Box>
             <Typography sx={{marginBottom: "10px"}}><span style={{color: "red"}}>*</span> Title</Typography>
-            <UIInput updateValue={(e) => setTitle(e)} defaultValue={title} fullWidth />
-            <Button variant="contained" disabled={active} sx={{marginTop: "20px"}} onClick={submit}>{isEdit ? "Edit" : "Create"}</Button>
+            <UIInput updateValue={(e) => setTitle(e)} defaultValue={title} />
+            <Button variant="contained" disabled={active} sx={{marginTop: "20px"}} onClick={handleSubmit}>{isEdit ? "Update" : "Create"}</Button>
         </Box>
     )
 }
 
-export default PeriodFilterCreatePage
+export default SettingsCategoryCreatePage

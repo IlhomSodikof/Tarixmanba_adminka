@@ -3,10 +3,11 @@ import { ChangeEvent, useState } from "react"
 
 interface props {
     fileChange: (e: FileList | null) => void,
-    defaultFile?: string | null
+    defaultFile?: string | null,
+    id?: string
 }
 
-const UIFile: React.FC<props> = ({fileChange, defaultFile}) => {
+const UIFile: React.FC<props> = ({fileChange, defaultFile, id}) => {
     const [name, setName] = useState<string>(defaultFile && defaultFile.split("/")[defaultFile.split("/").length - 1] || "")
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -21,12 +22,12 @@ const UIFile: React.FC<props> = ({fileChange, defaultFile}) => {
                 accept="image/*"
                 type="file"
                 onChange={handleChange}
-                id="input-file"
+                id={id ? `input-file-${id}`: "input-file"}
                 style={{
                     display: "none",
                 }}
             />
-            <label htmlFor="input-file" style={{
+            <label htmlFor={id ? `input-file-${id}`: "input-file"} style={{
                 display: "flex",
             }}>
                 <Button variant="contained" component="span">Upload File</Button>

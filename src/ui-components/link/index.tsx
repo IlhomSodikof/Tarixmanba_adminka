@@ -13,8 +13,11 @@ interface props {
 
 const UILink: React.FC<props> = ({to, text, Icon, active}) => {
     const {pathname} = useLocation()
+    const path = pathname.split("/")
+    const res = path[path.length-1]
+    
     useEffect(() => {
-        pathname.includes(to) ? setAct(true) : setAct(false)
+        "/"+res === to ? setAct(true) : setAct(false)
     }, [pathname])
     
     const [act, setAct] = useState<boolean>(false)

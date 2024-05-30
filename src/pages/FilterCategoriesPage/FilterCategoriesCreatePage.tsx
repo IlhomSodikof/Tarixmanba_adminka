@@ -4,11 +4,16 @@ import UIInput from "../../ui-components/input/input"
 import UISelect from "../../ui-components/input/select"
 import { createData } from "../../api/apiPostCalls"
 import { getAllDatas } from "../../api/apiGetCalls"
+import { useNavigate } from "react-router-dom"
+import { updateSingleData } from "../../api/apiUpdateCalls"
 
-const FilterCategoriesCreatePage: React.FC = () => {
-    const [category, setCategory] = useState<{id: string, value: string}>()
-    const [title, setTitle] = useState<string>("")
+const FilterCategoriesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) => {
+    const navigate = useNavigate()
+
+    const [category, setCategory] = useState<{id: string, value: string}>({id: data?.cat_id, value: data?.cat_title})
+    const [title, setTitle] = useState<string>(data?.title || "")
     const [categoryList, setCategoryList] = useState<string[]>([])
+    const [active, setActive] = useState<boolean>(false)
 
     useEffect(() => {
         getAllDatas("category")
@@ -29,27 +34,41 @@ const FilterCategoriesCreatePage: React.FC = () => {
 
     const submit = () => {
         if(!title || !category) return
+        setActive(true)
         
-        const form = new FormData()
-        form.append("title", title)
-        form.append("category", category.id)
+        const form = {title, category: category.id}
+        
+        if(isEdit) {
+            updateSingleData("filter_category", data?.id, form)
+                .then(res => {
+                    navigate("/filter-categories", {replace: true})
+                    return res
+                })
+                .catch(err => console.log(err))
+                .finally(() => setActive(false))
+        }else {
+            createData("filter_category", form)
+                .then(res => {
+                    navigate("/filter-categories", {replace: true})
+                    return res
+                })
+                .catch(err => err)
+                .finally(() => setActive(false))
+        }
 
-        createData("filter_category", form)
-            .then(res => res)
-            .catch(err => err)
     }
 
     return (
         <Box>
             <Typography sx={{margin: "20px 0 10px"}}><span style={{color: "red"}}>*</span> Select Category</Typography>
-            <UISelect options={getAllCategoryList} placeholder="" updateValue={(e) => {
+            <UISelect options={getAllCategoryList} defaultValue={category} placeholder="" updateValue={(e) => {
                 const cat = { id: e.id, value: e.value }
                 setCategory(cat)
             }} />
             <Typography sx={{margin: "20px 0 10px"}}><span style={{color: "red"}}>*</span> Title</Typography>
-            <UIInput updateValue={(e) => setTitle(e)} fullWidth />
+            <UIInput updateValue={(e) => setTitle(e)} defaultValue={title} fullWidth />
 
-            <Button variant="contained" sx={{marginTop: "20px"}} onClick={submit}>Create</Button>
+            <Button variant="contained" disabled={active} sx={{marginTop: "20px"}} onClick={submit}>{isEdit ? "Edit" : "Create"}</Button>
         </Box>
     )
 }

@@ -47,6 +47,11 @@ export const links: CustomLinks[] = [
         Icon: Settings
     },
     {
+        text: "Settings Category",
+        to: "/settings-category",
+        Icon: Settings
+    },
+    {
         text: "Pages",
         to: "/pages",
         Icon: ArticleOutlined

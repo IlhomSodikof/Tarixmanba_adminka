@@ -4,13 +4,18 @@ import { CustomBox, CustomInnerBox } from "./custom.style";
 import UIInput from "../../ui-components/input/input";
 import { ChangeEvent, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { loginUser } from "../../api/apiLoginUser";
+import { useNavigate } from "react-router-dom";
 
 const Auth: React.FC = () => {
+    const navigate = useNavigate()
     const {user, setUser} = useUserContext()
 
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [showPassword, setShowPassword] = useState<boolean>(false)
+
+    const [active, setActive] = useState<boolean>(false)
     
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword)
@@ -22,8 +27,17 @@ const Auth: React.FC = () => {
 
     const submit = () => {
         if(!email || !password) return
-        setUser({email})
-        localStorage.setItem("user", email)
+
+        setActive(true)
+        loginUser({username: email, password})
+            .then((res) => {
+                console.log(res);
+                setUser({email})
+                localStorage.setItem("user", email)
+                navigate("/", {replace: true})
+            })
+            .catch(err => console.log(err))
+            .finally(() => setActive(false))
     }
 
     return (
@@ -39,7 +53,7 @@ const Auth: React.FC = () => {
                         <Typography sx={{color: "red"}}>*</Typography>
                         <Typography>Login</Typography>
                     </Box>
-                    <UIInput updateValue={e => setEmail(e)} type="email" />
+                    <UIInput updateValue={e => setEmail(e)} />
                     <Box sx={{
                         display: "flex",
                         gap: "10px",
@@ -67,7 +81,7 @@ const Auth: React.FC = () => {
                             )
                         }}
                     />
-                    <Button variant="contained" sx={{marginTop: "30px"}} onClick={submit}>Login</Button>
+                    <Button variant="contained" disabled={active} sx={{marginTop: "30px"}} onClick={submit}>Login</Button>
                 </FormControl>
             </CustomInnerBox>
         </CustomBox>

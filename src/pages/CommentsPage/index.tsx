@@ -15,7 +15,7 @@ const Comments: React.FC = () => {
 
     const debouncedSearch = useDebounce(search)
 
-    const {data, loading, count} = useFetchGetAllDatas("comments", page, debouncedSearch)
+    const {data, loading, count} = useFetchGetAllDatas("comment", page, debouncedSearch)
 
     const totalHeaders = useMemo(() => {
         return headers.reduce((sum, header) => sum + header.space, 1)

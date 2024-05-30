@@ -6,16 +6,17 @@ import { useNavigate } from "react-router-dom"
 // import { UITinyMCE } from "../../ui-components/input/tinymce"
 import UIFile from "../../ui-components/input/file"
 import { updateSingleData } from "../../api/apiUpdateCalls"
+import { getImageAsFile } from "../../utils/getImage"
 
 const ArticlesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit = false, data}) => {
     const [title, setTitle] = useState<string>(data?.title || "")
     const [content, setContent] = useState<string>(data?.content || "")
-    const [file, setFile] = useState<FileList | null>(null)
+    const [file, setFile] = useState<FileList | null>(data?.file || null)
     const [active, setActive] = useState<boolean>(false)
 
     const navigate = useNavigate()
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if(!title || !file && !isEdit) {
             return
         }
@@ -24,16 +25,20 @@ const ArticlesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit = 
         const form = new FormData()
         form.append("title", title)
         form.append("content", content)
-        if(file && file[0]) form.append("file", file[0])
-        else form.append("file", data?.file)
-        
+        if(file) form.append("file", file[0])
+        else {
+            const result = await getImageAsFile(data?.file, "file")
+            form.append("file", result)
+        }
+
         if(isEdit) {
             updateSingleData("news", data?.id, form, true)
-                .then(res => res)
-                .catch(err => err)
-                .finally(() => {
-                    setActive(false)
+                .then(res => {
+                    navigate("/articles", {replace: true})
+                    return res
                 })
+                .catch(err => console.log(err))
+                .finally(() => setActive(false))
         }
         else{
             createData("news", form, true)

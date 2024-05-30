@@ -1,7 +1,6 @@
 // react
 import { useState } from "react"
-// mui
-import { Box } from "@mui/material"
+
 // components
 import DisplayData from "../../components/displayData"
 import Search from "../../ui-components/search"
@@ -13,6 +12,7 @@ import { headers } from "./constants/headers"
 import { useDebounce } from "../../hooks/useDebounce"
 import useFetchGetAllDatas from "../../hooks/useFetchGetAllDatas"
 import UIHeaders from "../../ui-components/headers"
+import { getFilteredData } from "../../utils/getFilteredData"
 
 const Source: React.FC = () => {
     const [search, setSearch] = useState<string>("")
@@ -23,11 +23,13 @@ const Source: React.FC = () => {
 
     const {data, loading, count} = useFetchGetAllDatas("resource", page, debouncedSearch)
 
+    console.log(data);
+
     const result = data && data.map((info: any) => {
+        const filtered = getFilteredData({data: info, keys: ["cat_name", "title", "created_time", "updated_time"]})
+
         return (
-            <Box>
-                <TableCells key={info.title} info={info} filtered={[]} deleteText="resource" />      
-            </Box>
+            <TableCells key={info.id} info={info} filtered={filtered} deleteText="resource" />      
         )
     })
     

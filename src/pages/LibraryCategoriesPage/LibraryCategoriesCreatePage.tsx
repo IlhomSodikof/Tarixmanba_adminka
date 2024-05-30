@@ -3,9 +3,10 @@ import { useState } from "react"
 import UIInput from "../../ui-components/input/input"
 import { createData } from "../../api/apiPostCalls"
 import { useNavigate } from "react-router-dom"
+import { updateSingleData } from "../../api/apiUpdateCalls"
 
-const LibraryCategoriesCreatePage: React.FC = () => {
-    const [title, setTitle] = useState<string>("")
+const LibraryCategoriesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit = false, data}) => {
+    const [title, setTitle] = useState<string>(data?.title || "")
     const [active, setActive] = useState<boolean>(false)
 
     const navigate = useNavigate()
@@ -13,20 +14,34 @@ const LibraryCategoriesCreatePage: React.FC = () => {
     const handleSubmit = () => {
         if(!title) return
         setActive(true)
-        createData("library_category", {title})
-            .then(res => res)
-            .catch(err => err)
-            .finally(() => {
-                setActive(false)
-                navigate("/library-categories", {replace: true})
-            })
+
+        const form = new FormData()
+        form.append("title", title)
+        if(isEdit) {
+            updateSingleData("library_category", data?.id, form)
+                .then(res => {
+                    navigate("/library-categories", {replace: true})
+                    return res
+                })
+                .catch(err => console.log(err))
+                .finally(() => setActive(false))
+        }
+        else {
+            createData("library_category", form)
+                .then(res => res)
+                .catch(err => err)
+                .finally(() => {
+                    setActive(false)
+                    navigate("/library-categories", {replace: true})
+                })
+        }
     }
 
     return (
         <Box>
             <Typography sx={{marginBottom: "10px"}}><span style={{color: "red"}}>*</span> Title</Typography>
-            <UIInput updateValue={(e) => setTitle(e)} />
-            <Button variant="contained" disabled={active} sx={{marginTop: "20px"}} onClick={handleSubmit}>Create</Button>
+            <UIInput updateValue={(e) => setTitle(e)} defaultValue={title} />
+            <Button variant="contained" disabled={active} sx={{marginTop: "20px"}} onClick={handleSubmit}>{isEdit ? "Edit" : "Create"}</Button>
         </Box>
     )
 }

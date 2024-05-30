@@ -15,7 +15,9 @@ const Settings: React.FC = () => {
 
     const debouncedSearch = useDebounce(search)
 
-    const {data, loading, count} = useFetchGetAllDatas("connections", page, debouncedSearch)
+    const {data, loading, count} = useFetchGetAllDatas("connection_value", page, debouncedSearch)
+
+    console.log(data);
 
     const totalHeaders = useMemo(() => {
         return headers.reduce((sum, header) => sum + header.space, 1)
@@ -32,7 +34,7 @@ const Settings: React.FC = () => {
     })
 
     const result = data && data.length > 0 && data.map((info: any) => {
-        const filtered = getFilteredData({data: info, keys: ["key", "value"]})
+        const filtered = getFilteredData({data: info, keys: ["connection_title", "value"]})
         
         return (
             <TableCells key={info.id} filtered={filtered} info={info} deleteText="connections" />      

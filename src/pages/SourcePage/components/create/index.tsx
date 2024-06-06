@@ -14,10 +14,33 @@ import { getAllFilteredLists } from "../../../../utils/getFilteredList"
 import { createData } from "../../../../api/apiPostCalls"
 import { divideToLists } from "../../../../utils/divideToLists"
 import { useNavigate } from "react-router-dom"
+import { updateSingleData } from "../../../../api/apiUpdateCalls"
+import { getImageAsFile } from "../../../../utils/getImage"
+import { ImageToBase64 } from "../../../../utils/imageToBase64"
+
+interface IResult {
+    category: string,
+    filter_category: string,
+    filters: string,
+    period_filter: string,
+    title: string,
+    image: string | null,
+    content: string,
+    statehood: boolean,
+    province: string,
+    attributes_title_list: any[],
+    attributes_description_list: any[],
+    contents_title_list: any[],
+    contents_description_list: any[],
+    interive_title_list: any[],
+    status_list: any[],
+    interive_file_list: any[],
+    link_list: any[],
+    latitude_list: any[],
+    longitude_list: any[]
+}
 
 const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) => {
-    console.log(data);
-    
     const navigate = useNavigate()
 
     const interiveType = [
@@ -29,20 +52,45 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
         {id: "5", value: "Location"},
     ]
 
-    // const [interiveInputType, setInteriveInputType] = useState<"file" | "link" | "location">("file")
+    const itemType: {[x: string]: "file" | "link" | "location"} = {
+        "Gallery": "file",
+        "Audio": "file",
+        "File": "file",
+        "Virtual_reality": "file",
+        "Video": "link",
+        "Location": "location"
+    }
+
     const [category, setCategory] = useState<{[x: string]: string}>({id: data?.category, value: data?.cat_name})
     const [filterCategory, setFilterCategory] = useState<{[x: string]: string}>({id: data?.filter_category, value: data?.filter_category_name})
     const [filter, setFilter] = useState<{[x: string]: string}>({id: data?.filters, value: data?.filters_name})
     const [periodFilter, setPeriodFilter] = useState<{[x: string]: string}>({id: data?.period_filter, value: data?.period_filter_name})
     const [title, setTitle] = useState<string>(data?.title || "")
-    const [image, setImage] = useState<string|ArrayBuffer|null>(null)
+    const [image, setImage] = useState<File | null>(null)
     const [content, setContent] = useState<string>(data?.content || "")
-    const [statehood, setStatehood] = useState<boolean>(true)
-    const [province, setProvince] = useState<{[x: string]: string}>({})
+    const [statehood, setStatehood] = useState<boolean>(data?.statehood || false)
+    const [province, setProvince] = useState<{[x: string]: string}>({id: data?.province, value: data?.province_name})
 
-    const [attributes, setAttributes] = useState<{[x: string]: string | number}[]>(data?.attributes_list)
-    const [contents, setContents] = useState<{[x: string]: string | number}[]>(data?.contents_list)
-    const [interactiveContent, setInteractiveContent] = useState<{[x: string]: string | number | FileList | null}[]>(data?.interive_list)
+    const [attributes, setAttributes] = useState<{[x: string]: string | number}[]>(data?.attributes_list || [{id: Date.now(), attributes_title: "", attributes_description: "", sequence: 1}])
+    const [contents, setContents] = useState<{[x: string]: string | number}[]>(data?.contents_list || [{id: Date.now(), contents_title: "", sequence: 1, contents_description: ""}])
+    const [interactiveContent, setInteractiveContent] = useState<{[x: string]: string | number | FileList | null}[]>(data?.interive_list || [{
+        id: Date.now(), 
+        item: "file", 
+        title: "", 
+        sequence: 1, 
+        file: null, 
+        link: "", 
+        latitude: "", 
+        longitude: ""
+    }])
+
+    useEffect(() => {
+        async function fetchImage() {
+            const res = await getImageAsFile(data?.image, data?.image)
+            setImage(res)
+        }
+        fetchImage()
+    }, [data])
 
     const [active, setActive] = useState<boolean>(false)
 
@@ -101,34 +149,27 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
     }
 
     const editInteractiveContent = (id: number, key: string, value: string | number | FileList | null) => {
-        const itemType: {[x: string]: "file" | "link" | "location"} = {
-            "Gallery": "file",
-            "Audio": "file",
-            "File": "file",
-            "Virtual_reality": "file",
-            "Video": "link",
-            "Location": "location"
-        }
         const result = [...interactiveContent]
 
-        if(key==="interive_file" && value){
-            
+        if(key==="file" && value instanceof FileList){
+            // if(typeof value !== FileList) return
             const reader: FileReader = new FileReader();
             reader.onloadend = () => {
                 result[id] = {
                     ...interactiveContent[id],
-                    [key]: reader.result
+                    [key]: reader.result as string
                 }
             };
+            console.log(value);
             reader.readAsDataURL(value[0]);
             console.log("go", reader.result);
         }
 
-        if(key === "interive_item" && typeof value === "string") {
+        if(key === "item" && typeof value === "string") {
             result[id] = {
                 ...interactiveContent[id],
                 [key]: itemType[value],
-                "interive_status": value
+                "status": value
             }
         }else {
             result[id] = {
@@ -136,6 +177,7 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
                 [key]: value
             }
         }
+        console.log(key, value, result);
         setInteractiveContent(result)
     }
 
@@ -143,16 +185,6 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
         const arr = [...interactiveContent]
         arr.splice(id, 1)
         setInteractiveContent(arr)
-    }
-
-    const updateImage = async (e: any) => {
-        if (e) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImage(reader.result);
-            };
-            reader.readAsDataURL(e[0]);
-        }
     }
 
     const [filterCategoryList, setFilterCategoryList] = useState<any[]>([])
@@ -184,9 +216,7 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
     const allPeriodFilter = getAllFilteredLists({data: allPeriodFilterList})
     const allProvince = getAllFilteredLists({data: allProvinceList})
 
-    const handleSubmit = () => {
-        console.log("working");
-        
+    const handleSubmit = async () => {
         if(!category || !filterCategory || !filter || !periodFilter || !title) {
             return
         }
@@ -197,20 +227,20 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
         const attributesDescriptions = divideToLists({data: attributes, key: "attributes_description"})
         const contentTitles = divideToLists({data: contents, key: "contents_title"})
         const contentDescriptions = divideToLists({data: contents, key: "contents_description"})
-        const interiveTitles = divideToLists({data: interactiveContent, key: "interive_title"})
-        const interiveStatus = divideToLists({data: interactiveContent, key: "interive_status"})
-        const interiveFiles = divideToLists({data: interactiveContent, key: "interive_file"})
-        const interiveLinks = divideToLists({data: interactiveContent, key: "interive_link"})
-        const interiveLatitudes = divideToLists({data: interactiveContent, key: "interive_latitude"})
-        const interiveLongitude = divideToLists({data: interactiveContent, key: "interive_longitude"})
+        const interiveTitles = divideToLists({data: interactiveContent, key: "title"})
+        const interiveStatus = divideToLists({data: interactiveContent, key: "status"})
+        const interiveFiles = divideToLists({data: interactiveContent, key: "file"})
+        const interiveLinks = divideToLists({data: interactiveContent, key: "link"})
+        const interiveLatitudes = divideToLists({data: interactiveContent, key: "latitude"})
+        const interiveLongitude = divideToLists({data: interactiveContent, key: "longitude"})
 
-        const result = {
+        const result: IResult = {
             category: category?.id+"",
             filter_category: filterCategory?.id+"",
             filters: filter?.id+"",
             period_filter: periodFilter?.id+"",
             title,
-            image,
+            image: null,
             content,
             statehood,
             province: province?.id+"",
@@ -220,7 +250,7 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
             contents_description_list: contentDescriptions,
             interive_title_list: interiveTitles,
             status_list: interiveStatus,
-            // interive_file_list: interiveFiles,
+            interive_file_list: [],
             link_list: interiveLinks,
             latitude_list: interiveLatitudes,
             longitude_list: interiveLongitude
@@ -228,18 +258,32 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
 
         if(interiveFiles.length > 0) result.interive_file_list = interiveFiles
 
-        console.log(result);
+        if(isEdit) {
+            // const res = await getImageAsFile(data?.image, data?.image)
+            result.image = image && await ImageToBase64(image)
+            
+            updateSingleData("resource", data?.id, result)
+                .then(res => {
+                    navigate("/sources", {replace: true})
+                    return res
+                })
+                .catch(err => console.log(err, result))
+                .finally(() => {
+                    setActive(false)
+                })
+        }else {
+            createData("resource", result)
+                .then(res => {
+                    navigate("/sources", {replace: true})
+                    console.log(res, result)
+                })
+                .catch(err => console.log(err, result))
+                .finally(() => {
+                    console.log("it should be working", result)
+                    setActive(false)
+                })
+        }
 
-        createData("resource", result)
-            .then(res => {
-                console.log(res)
-            })
-            .catch(err => console.log(err))
-            .finally(() => {
-                navigate("/sources", {replace: true})
-                console.log("it should be working", result)
-                setActive(false)
-            })
     }
     
     return (
@@ -267,7 +311,7 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
             <UIInput updateValue={(e) => setTitle(e)} defaultValue={title} />
 
             <Typography sx={{margin: "20px 0 10px"}}>Click to upload an image</Typography>
-            <UIFile fileChange={(e) => updateImage(e)} defaultFile={data?.image} id="one"/>
+            <UIFile fileChange={(e) => e && setImage(e[0])} defaultFile={data?.image} id="one"/>
 
             <Typography sx={{margin: "20px 0 10px"}}>Content</Typography>
             <UIInput updateValue={(e) => setContent(e)} defaultValue={content} />
@@ -321,16 +365,16 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
                 return (
                     <Box key={interive.id}>
                         <Stack direction={"row"} gap={2} sx={{margin: "10px 0"}}>  
-                            <UISelect options={interiveType} defaultValue={interiveType[0]} placeholder="Select type" updateValue={(e) => editInteractiveContent(id, "interive_item", e.value)} />
+                            <UISelect options={interiveType} defaultValue={{id: interiveType[0].id || "0", value: interive.status || interiveType[0].value} || interiveType[0]} placeholder="Select type" updateValue={(e) => editInteractiveContent(id, "interive_item", e.value)} />
                             <UIInput updateValue={(e) => editInteractiveContent(id, "interive_title", e)} defaultValue={interive.title} placeholder="Title" />
                             <UIInput type="number" fullWidth={false} updateValue={(e) => editInteractiveContent(id, "interive_sequence", e)} placeholder="Sequence" defaultValue={interive.sequence} /> 
                         </Stack>
-                        {interive.interive_item === "file" && (<UIFile id={id+""} fileChange={(e) => editInteractiveContent(id, "interive_file", e)} />)}
-                        {interive.interive_item === "link" && (<UIInput updateValue={(e => editInteractiveContent(id, "interive_link", e))} defaultValue={interive.interive_link} placeholder="Link" />)}
-                        {interive.interive_item === "location" && (
+                        {(itemType[interive.status] === "file" || interive.interive_item === "file") && (<UIFile id={id+""} defaultFile={interive.file} fileChange={(e) => editInteractiveContent(id, "interive_file", e)} />)}
+                        {(itemType[interive.status] === "link" || interive.interive_item === "link") && (<UIInput updateValue={(e => editInteractiveContent(id, "interive_link", e))} defaultValue={interive.link} placeholder="Link" />)}
+                        {(itemType[interive.status] === "location" || interive.interive_item === "location") && (
                             <Stack direction={"row"} gap={2}>
-                                <UIInput updateValue={(e) => editInteractiveContent(id, "interive_latitude", e)} defaultValue={interive.interive_latitude} placeholder="Latitude" />
-                                <UIInput updateValue={(e) => editInteractiveContent(id, "interive_longitude", e)} defaultValue={interive.interive_longitude} placeholder="Longitude" />
+                                <UIInput updateValue={(e) => editInteractiveContent(id, "interive_latitude", e)} defaultValue={interive.latitude} placeholder="Latitude" />
+                                <UIInput updateValue={(e) => editInteractiveContent(id, "interive_longitude", e)} defaultValue={interive.longitude} placeholder="Longitude" />
                             </Stack>
                         )}
                         {interactiveContent.length > 1 && (<Button variant="contained" sx={{margin: "10px 0"}} onClick={() => deleteInteractiveContent(id)}>Delete</Button>)}                        
@@ -344,7 +388,7 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
                 onClick={addInteractiveContent}
             >Add Interactive Content</Button>
 
-            <Button variant="contained" disabled={active} onClick={handleSubmit} sx={{marginTop: "20px"}}>Create</Button>
+            <Button variant="contained" disabled={active} onClick={handleSubmit} sx={{marginTop: "20px"}}>{isEdit ? "Edit" : "Create"}</Button>
         </Box>
     )
 }

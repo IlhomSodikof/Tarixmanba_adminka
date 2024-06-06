@@ -11,7 +11,7 @@ interface props {
 }
 
 const Sidebar: React.FC<props> = ({active}) => {
-    const {user, setUser} = useUserContext()
+    const {setUser} = useUserContext()
     
     const navigate = useNavigate()
     

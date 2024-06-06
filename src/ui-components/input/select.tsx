@@ -16,11 +16,6 @@ const UISelect: React.FC<props> = ({options, defaultValue, placeholder, updateVa
         updateValue(value)
     }
 
-    // console.log(defaultValue, placeholder);
-
-    // console.log(value);
-     
-
     return (
         <Autocomplete
             fullWidth

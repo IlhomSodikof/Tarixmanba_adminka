@@ -15,7 +15,7 @@ const UISwitch: React.FC<props> = ({value, changeValue}) => {
     }
     return (
         <>
-            <CustomSwitch value={val} onChange={handleChange} />
+            <CustomSwitch value={val} defaultChecked={val} onChange={handleChange} />
         </>
     )
 }

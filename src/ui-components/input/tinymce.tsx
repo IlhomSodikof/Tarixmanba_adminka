@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
 import { Editor } from '@tinymce/tinymce-react';
-import { useState } from 'react';
 
 interface props {
     updateMCE: (e: string) => void

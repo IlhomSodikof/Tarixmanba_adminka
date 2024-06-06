@@ -17,8 +17,6 @@ const CategoriesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit,
 
     const navigate = useNavigate()
 
-    console.log(data);
-    
     const handleSubmit = async () => {
         if(!isEdit && !icon || !title || !order) {
             return
@@ -45,7 +43,6 @@ const CategoriesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit,
                 })
                 .catch(err => err)
                 .finally(() => {
-                    console.log("update");
                     setActive(false)
                 })
         }else{
@@ -56,7 +53,6 @@ const CategoriesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit,
                 })
                 .catch(err => err)
                 .finally(() => {
-                    console.log("create");
                     setActive(false)
                 })
         }

@@ -22,8 +22,6 @@ const Categories: React.FC = () => {
         return headers.reduce((sum, header) => sum + header.space, 1)
     }, [headers])
 
-    console.log(data);
-    
     const result = data && data.length > 0 && data.map((info: any) => {
         const filtered = getFilteredData({data: info, keys: ["id", "icon", "title"]});
 

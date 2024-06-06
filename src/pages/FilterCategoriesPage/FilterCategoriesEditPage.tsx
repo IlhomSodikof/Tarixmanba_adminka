@@ -9,8 +9,6 @@ const FiltercategoriesEditPage: React.FC = () => {
 
     const { data } = useFetchGetSingleData("filter_category", id)
 
-    console.log(data);
-    
     if(!data) return <h2>No data</h2>
     
     return (

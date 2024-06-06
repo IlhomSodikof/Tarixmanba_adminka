@@ -8,7 +8,6 @@ const LibrariesEditPage: React.FC = () => {
     if(!id) return <h2>Nothing Found</h2>
 
     const { data } = useFetchGetSingleData("libraries", id)
-    console.log(data);
     
     if(!data) return <h2>No data</h2>
     

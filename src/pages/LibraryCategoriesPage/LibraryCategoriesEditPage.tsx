@@ -7,7 +7,6 @@ const LibraryCategoriesEditPage: React.FC = () => {
     const id = useLocation().state;
 
     const {data} = useFetchGetSingleData("library-categories", id)
-    console.log(data);
 
     if(!data) return <h2>No data</h2>
     

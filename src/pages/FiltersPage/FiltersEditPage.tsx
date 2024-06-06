@@ -11,8 +11,6 @@ const FiltersEditPage: React.FC = () => {
     
     if(!data) return <h2>No data</h2>
     
-    console.log(data);
-    
     return (
         <Box>
             <FiltersCreatePage isEdit data={data} />

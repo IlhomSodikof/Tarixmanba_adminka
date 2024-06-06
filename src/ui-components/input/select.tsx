@@ -1,4 +1,5 @@
 import { Autocomplete, TextField } from "@mui/material"
+import { useState } from "react"
 
 interface props {
     options: {[x: string]: string}[],
@@ -9,14 +10,15 @@ interface props {
 }
 
 const UISelect: React.FC<props> = ({options, defaultValue, placeholder, updateValue, disabled=true}) => {
+    const [val, setVal] = useState<string>(defaultValue?.value || "")
     const handleInput = (_e: any, value: {[x: string]: string}) => {
+        setVal(value.value)
         updateValue(value)
     }
 
-    console.log(defaultValue);
+    // console.log(defaultValue, placeholder);
 
-    const value = defaultValue?.value || ""
-    console.log(value);
+    // console.log(value);
      
 
     return (
@@ -27,10 +29,10 @@ const UISelect: React.FC<props> = ({options, defaultValue, placeholder, updateVa
             options={options}
             // defaultValue={defaultValue}
             getOptionLabel={(option) => option.value}
-            value={{value: value}}
+            value={{value: val}}
             disableClearable
             size="small"
-            renderInput={params => (<TextField placeholder={placeholder} {...params} value={value} />)}
+            renderInput={params => (<TextField placeholder={placeholder} {...params} value={val} />)}
         />
     )
 }

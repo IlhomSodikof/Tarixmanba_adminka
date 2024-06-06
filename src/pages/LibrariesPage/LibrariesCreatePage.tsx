@@ -54,7 +54,6 @@ const LibrariesCreatePage: React.FC<props> = ({isEdit, data}) => {
         if(isEdit) {
             updateSingleData("library", data?.id, form, true)
                 .then(res => {
-                    console.log(res, form);
                     navigate("/libraries", {replace: true})
                     return res
                 })

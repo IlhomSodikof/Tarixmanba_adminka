@@ -23,8 +23,6 @@ const Source: React.FC = () => {
 
     const {data, loading, count} = useFetchGetAllDatas("resource", page, debouncedSearch)
 
-    console.log(data);
-
     const result = data && data.map((info: any) => {
         const filtered = getFilteredData({data: info, keys: ["cat_name", "title", "created_time", "updated_time"]})
 

@@ -12,7 +12,7 @@ const FilterCategoriesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({i
 
     const [category, setCategory] = useState<{id: string, value: string}>({id: data?.cat_id, value: data?.cat_title})
     const [title, setTitle] = useState<string>(data?.title || "")
-    const [categoryList, setCategoryList] = useState<string[]>([])
+    const [categoryList, setCategoryList] = useState<{[x: string]: string}[]>([])
     const [active, setActive] = useState<boolean>(false)
 
     useEffect(() => {

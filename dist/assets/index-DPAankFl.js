@@ -1,1 +1,0 @@
-import{r as a,j as s,T as p}from"./index-BBG2Og9a.js";import{a as x}from"./getFilteredData-uO8wGSNX.js";const m=({headers:r})=>{const e=a.useMemo(()=>r.reduce((t,o)=>t+o.space,1),[r]);return r.map(t=>s.jsx(x,{sx:{width:`${t.space/e*100}%`},children:s.jsx(p,{children:t.text})},t.text))};export{m as U};

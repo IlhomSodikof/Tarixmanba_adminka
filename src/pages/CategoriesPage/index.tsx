@@ -18,11 +18,13 @@ const Categories: React.FC = () => {
 
     const {data, loading, count} = useFetchGetAllDatas("category", page, debouncedSearch)
 
+    console.log(data, loading, count);
+
     const totalHeaders = useMemo(() => {
         return headers.reduce((sum, header) => sum + header.space, 1)
     }, [headers])
 
-    const result = data && data.length > 0 && data.map((info: any) => {
+    const result = data && !loading && data.length > 0 && data.map((info: any) => {
         const filtered = getFilteredData({data: info, keys: ["id", "icon", "title"]});
 
         return (

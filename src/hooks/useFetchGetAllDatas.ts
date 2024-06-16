@@ -8,10 +8,12 @@ const useFetchGetAllDatas = (url: string, page: number = 1, search: string = "")
 
     const [count, setCount] = useState<number>(0)
 
+    
     const fetchData = async () => {
         setLoading(true)
         try {
             const response = await getAllDatas(`${url}/?title=${search}&page=${page.toString()}`)
+            console.log(url, page, search, response);
             
             setData(response.results)
             setCount(response.count)

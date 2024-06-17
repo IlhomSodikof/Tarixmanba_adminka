@@ -2,13 +2,16 @@ import { useLocation } from "react-router-dom";
 import useFetchGetSingleData from "../../hooks/useFetchGetSingleData";
 import { Box } from "@mui/material";
 import LibraryCategoriesCreatePage from "./LibraryCategoriesCreatePage";
+import Loading from "../../components/loading";
 
 const LibraryCategoriesEditPage: React.FC = () => {
     const id = useLocation().state;
 
-    const {data} = useFetchGetSingleData("library-categories", id)
+    const {data, loading} = useFetchGetSingleData("library-categories", id)
 
-    if(!data) return <h2>No data</h2>
+    if(loading) return <Loading />
+    
+    if(!data && !loading) return <h2>No data</h2>
     
     return (
         <Box>

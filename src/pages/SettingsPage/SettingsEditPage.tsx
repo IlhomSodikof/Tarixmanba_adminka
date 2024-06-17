@@ -2,14 +2,17 @@ import { useParams } from "react-router-dom"
 import useFetchGetSingleData from "../../hooks/useFetchGetSingleData";
 import { Box } from "@mui/material";
 import SettingsCreatePage from "./SettingsCreatePage";
+import Loading from "../../components/loading";
 
 const ArticlesEditPage: React.FC = () => {
     const { id } = useParams()
     if(!id) return <h2>Nothing Found</h2>
 
-    const { data } = useFetchGetSingleData("connection_value", id)
+    const { data, loading } = useFetchGetSingleData("connection_value", id)
     
-    if(!data) return <h2>No data</h2>
+    if(loading) return <Loading />
+    
+    if(!data && !loading) return <h2>No data</h2>
     
     return (
         <Box>

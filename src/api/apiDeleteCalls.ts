@@ -7,6 +7,7 @@ export const deleteItem = async (link: string, id: string) => {
                 "Content-Type": "application/json"
             }
         })
+        location.reload()
         return res.data
     } catch (error) {
         throw error

@@ -30,7 +30,6 @@ const ArticlesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit = 
         if(!isEdit) file && form.append("file", file[0])
         else {
             const result = await getImageAsFile(data?.file, "file")
-            console.log(result);
             form.append("file", result)
         }
 

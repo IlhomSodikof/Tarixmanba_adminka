@@ -30,7 +30,7 @@ const TableCells: React.FC<props> = ({info, filtered, deleteText}) => {
                 textWrap: "wrap"
             }}>
                 {
-                    typeof data === "string" && data.includes("media") && data.includes("icons") ? <img src={data} alt={data} width={80} /> : <Typography>{data}</Typography>
+                    typeof data === "string" && data.includes("media") && data.includes("icons") ? <img src={data} alt={data} width={80} /> : <Typography sx={{wordWrap: "break-word"}}>{data}</Typography>
                 }
             </TableCell>
         )

@@ -22,7 +22,7 @@ const PopperModal: React.FC<PopperModalProps> = ({open, info, changeOpen, delete
                     onClick={() => changeOpen(false)}
                     sx={{
                         backgroundColor: "transparent",
-                        position: "absolute",
+                        position: "fixed",
                         inset: 0
                     }}
                 ></Paper>

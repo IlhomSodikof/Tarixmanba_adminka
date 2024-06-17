@@ -9,6 +9,7 @@ import useFetchGetAllDatas from "../../hooks/useFetchGetAllDatas"
 import { getAllFilteredLists } from "../../utils/getFilteredList"
 import { useNavigate } from "react-router-dom"
 import { updateSingleData } from "../../api/apiUpdateCalls"
+import { getImageAsFile } from "../../utils/getImage"
 
 interface props {
     isEdit?: boolean,
@@ -33,7 +34,7 @@ const LibrariesCreatePage: React.FC<props> = ({isEdit, data}) => {
 
     const allLists = getAllFilteredLists({data: allLibraryCategory})
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if(!libraryCategory || !title || !author || !type || !year || !country || !language) {
             return
         }
@@ -48,10 +49,14 @@ const LibrariesCreatePage: React.FC<props> = ({isEdit, data}) => {
         form.append("country", country)
         form.append("language", language)
         form.append("author", author)
-        if(image) form.append("image", image[0])
-        if(file) form.append("file", file[0])
-
+        
         if(isEdit) {
+            const resultFile = await getImageAsFile(data?.file, "file")
+            form.append("file", resultFile)
+
+            const resultImage = await getImageAsFile(data?.image, "image")
+            form.append("image", resultImage)
+            
             updateSingleData("library", data?.id, form, true)
                 .then(res => {
                     navigate("/libraries", {replace: true})
@@ -60,6 +65,8 @@ const LibrariesCreatePage: React.FC<props> = ({isEdit, data}) => {
                 .catch(err => console.log(err))
                 .finally(() => setActive(false))
         }else {
+            image && form.append("image", image[0])
+            file && form.append("file", file[0])
             createData("library", form, true)
                 .then(res => {
                     navigate("/libraries", {replace: true})

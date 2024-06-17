@@ -14,6 +14,8 @@ const ArticlesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit = 
     const [file, setFile] = useState<FileList | null>(data?.file || null)
     const [active, setActive] = useState<boolean>(false)
 
+    console.log(data);
+
     const navigate = useNavigate()
 
     const handleSubmit = async () => {
@@ -25,13 +27,18 @@ const ArticlesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit = 
         const form = new FormData()
         form.append("title", title)
         form.append("content", content)
-        if(file) form.append("file", file[0])
+        if(!isEdit) file && form.append("file", file[0])
         else {
             const result = await getImageAsFile(data?.file, "file")
+            console.log(result);
             form.append("file", result)
         }
 
+        
         if(isEdit) {
+            for (var pair of form.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]); 
+            }
             updateSingleData("news", data?.id, form, true)
                 .then(res => {
                     navigate("/articles", {replace: true})

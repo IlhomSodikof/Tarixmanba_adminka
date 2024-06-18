@@ -17,6 +17,8 @@ const Settings: React.FC = () => {
 
     const {data, loading, count} = useFetchGetAllDatas("connection_value", page, debouncedSearch)
 
+    console.log(data);
+
     const totalHeaders = useMemo(() => {
         return headers.reduce((sum, header) => sum + header.space, 1)
     }, [headers])
@@ -35,7 +37,7 @@ const Settings: React.FC = () => {
         const filtered = getFilteredData({data: info, keys: ["connection_title", "value"]})
         
         return (
-            <TableCells key={info.id} filtered={filtered} info={info} deleteText="connections" />      
+            <TableCells key={info.id} filtered={filtered} info={info} deleteText="connection_value" />      
         )
     })
 

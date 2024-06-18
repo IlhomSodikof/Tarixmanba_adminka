@@ -10,6 +10,7 @@ export const deleteItem = async (link: string, id: string) => {
         location.reload()
         return res.data
     } catch (error) {
+        console.log(error);
         throw error
     }
 }

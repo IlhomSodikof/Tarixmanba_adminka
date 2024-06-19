@@ -22,7 +22,7 @@ const PeriodFilterCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdi
                     navigate("/period-filter", {replace: true})
                     return res
                 })
-                .catch(err => console.log(err))
+                .catch(err => err)
                 .finally(() => setActive(false))
         }else {
             createData("period_filter", {title})

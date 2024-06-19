@@ -6,7 +6,6 @@ export const getAllDatas = async (text: string) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            // responseType: "arraybuffer"
         })
         return res.data
     } catch (error) {

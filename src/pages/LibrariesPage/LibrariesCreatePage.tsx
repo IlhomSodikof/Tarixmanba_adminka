@@ -55,18 +55,14 @@ const LibrariesCreatePage: React.FC<props> = ({isEdit, data}) => {
             form.append("image", resultImage)
             
             const resultFile = await getImageAsFile(data?.file, "file")
-            form.append("file", resultFile)
-            
-            for (var pair of form.entries()) {
-                console.log(pair[0]+ ', ' + JSON.stringify(pair[1])); 
-            }            
+            form.append("file", resultFile)          
             
             updateSingleData("library", data?.id, form, true)
                 .then(res => {
                     navigate("/libraries", {replace: true})
                     return res
                 })
-                .catch(err => console.log(err))
+                .catch(err => err)
                 .finally(() => setActive(false))
         }else {
             image && form.append("image", image[0])

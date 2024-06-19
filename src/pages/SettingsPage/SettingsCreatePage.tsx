@@ -34,7 +34,7 @@ const SettingsCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, d
                     navigate("/settings", {replace: true})
                     return res
                 })
-                .catch(err => console.log(err))
+                .catch(err => err)
                 .finally(() => setActive(false))
         }else {
             createData("connection_value", form)
@@ -42,7 +42,7 @@ const SettingsCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, d
                     navigate("/settings", {replace: true})
                     return res
                 })
-                .catch(err => console.log(err))
+                .catch(err => err)
                 .finally(() => setActive(false))
         }
     }

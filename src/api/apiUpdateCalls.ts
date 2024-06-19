@@ -10,7 +10,6 @@ export const updateSingleData = async (text: string, id: string | number, update
             })
             return res.data
         } catch (error) {
-            console.log(error);
             throw error
         }    
     }

@@ -18,8 +18,6 @@ const Categories: React.FC = () => {
 
     const {data, loading, count} = useFetchGetAllDatas("category", page, debouncedSearch)
 
-    console.log(data, loading, count);
-
     const totalHeaders = useMemo(() => {
         return headers.reduce((sum, header) => sum + header.space, 1)
     }, [headers])

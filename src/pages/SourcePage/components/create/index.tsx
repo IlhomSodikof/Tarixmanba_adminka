@@ -41,6 +41,8 @@ interface IResult {
 }
 
 const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) => {
+    console.log(data);
+    
     const navigate = useNavigate()
 
     const interiveType = [
@@ -227,12 +229,12 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
         const attributesDescriptions = divideToLists({data: attributes, key: "attributes_description"})
         const contentTitles = divideToLists({data: contents, key: "contents_title"})
         const contentDescriptions = divideToLists({data: contents, key: "contents_description"})
-        const interiveTitles = divideToLists({data: interactiveContent, key: "title"})
-        const interiveStatus = divideToLists({data: interactiveContent, key: "status"})
-        const interiveFiles = divideToLists({data: interactiveContent, key: "file"})
-        const interiveLinks = divideToLists({data: interactiveContent, key: "link"})
-        const interiveLatitudes = divideToLists({data: interactiveContent, key: "latitude"})
-        const interiveLongitude = divideToLists({data: interactiveContent, key: "longitude"})
+        const interiveTitles = divideToLists({data: interactiveContent, key: "interive_title"})
+        const interiveStatus = divideToLists({data: interactiveContent, key: "interive_status"})
+        const interiveFiles = divideToLists({data: interactiveContent, key: "interive_file"})
+        const interiveLinks = divideToLists({data: interactiveContent, key: "interive_link"})
+        const interiveLatitudes = divideToLists({data: interactiveContent, key: "interive_latitude"})
+        const interiveLongitude = divideToLists({data: interactiveContent, key: "interive_longitude"})
 
         const result: IResult = {
             category: category?.id+"",
@@ -272,6 +274,8 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
                     setActive(false)
                 })
         }else {
+            result.image = image && await ImageToBase64(image)
+
             createData("resource", result)
                 .then(res => {
                     navigate("/sources", {replace: true})

@@ -36,7 +36,7 @@ const SlidersCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, da
                     navigate("/sliders", {replace: true})
                     return res
                 })
-                .catch(err => console.log(err))
+                .catch(err => err)
                 .finally(() => setActive(false))
         }else {
             createData("sliders", form, true)

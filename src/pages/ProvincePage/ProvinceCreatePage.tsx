@@ -23,7 +23,7 @@ const ProvinceCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, d
                     navigate("/province", {replace: true})
                     return res
                 })
-                .catch(err => console.log(err))
+                .catch(err => err)
                 .finally(() => setActive(false))
         }else {
             createData("province", {title, latitude, longitude})

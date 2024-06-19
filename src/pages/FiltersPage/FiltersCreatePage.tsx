@@ -1,38 +1,31 @@
 import { Box, Button, Typography } from "@mui/material"
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import UIInput from "../../ui-components/input/input"
 import UISelect from "../../ui-components/input/select"
 import { createData } from "../../api/apiPostCalls"
-import { getAllDatas } from "../../api/apiGetCalls"
 import { useNavigate } from "react-router-dom"
 import { updateSingleData } from "../../api/apiUpdateCalls"
+import useFetchGetAllDatas from "../../hooks/useFetchGetAllDatas"
 
 const FiltersCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) => {
     const navigate = useNavigate()
 
     const [filterCategory, setFilterCategory] = useState<{[x: string]: string}>({id: data?.filter_cat_id, value: data?.filter_categories_name})
     const [title, setTitle] = useState<string>(data?.title || "")
-    const [categoryList, setCategoryList] = useState<string[]>([])
     const [active, setActive] = useState<boolean>(false)
 
-    useEffect(() => {
-        getAllDatas("filter_category")
-            .then(res => {
-                setCategoryList(res.results)
-            })
-            .catch(err => err)
-    }, [])
+    const {data: catList } = useFetchGetAllDatas("filter_category")
 
     const getAllCategoryList = useMemo(() => {
         const result: {[x: string]: string}[] = []
-        categoryList.map((list: any) => {
+        catList?.map((list: any) => {
             result.push({
                 id: list.id,
                 value: list.title
             })
         })
         return result
-    }, [categoryList])
+    }, [catList])
 
     const submit = () => {
         if(!title || !filterCategory) return
@@ -47,7 +40,7 @@ const FiltersCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, da
                     navigate("/filters", {replace: true})
                     return res
                 })
-                .catch(err => console.log(err))
+                .catch(err => err)
                 .finally(() => setActive(false))
         }else {
             createData("filters", form)

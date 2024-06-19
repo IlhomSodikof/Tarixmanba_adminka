@@ -14,8 +14,6 @@ const ArticlesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit = 
     const [file, setFile] = useState<FileList | null>(data?.file || null)
     const [active, setActive] = useState<boolean>(false)
 
-    console.log(data);
-
     const navigate = useNavigate()
 
     const handleSubmit = async () => {
@@ -35,15 +33,12 @@ const ArticlesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit = 
 
         
         if(isEdit) {
-            for (var pair of form.entries()) {
-                console.log(pair[0]+ ', ' + pair[1]); 
-            }
             updateSingleData("news", data?.id, form, true)
                 .then(res => {
                     navigate("/articles", {replace: true})
                     return res
                 })
-                .catch(err => console.log(err))
+                .catch(err => err)
                 .finally(() => setActive(false))
         }
         else{

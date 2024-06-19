@@ -17,8 +17,6 @@ const Settings: React.FC = () => {
 
     const {data, loading, count} = useFetchGetAllDatas("connection_value", page, debouncedSearch)
 
-    console.log("Date is 18.06. Time is around 17");
-    
     const totalHeaders = useMemo(() => {
         return headers.reduce((sum, header) => sum + header.space, 1)
     }, [headers])

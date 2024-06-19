@@ -44,7 +44,7 @@ const FilterCategoriesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({i
                     navigate("/filter-categories", {replace: true})
                     return res
                 })
-                .catch(err => console.log(err))
+                .catch(err => err)
                 .finally(() => setActive(false))
         }else {
             createData("filter_category", form)

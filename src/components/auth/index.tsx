@@ -30,13 +30,12 @@ const Auth: React.FC = () => {
 
         setActive(true)
         loginUser({username: email, password})
-            .then((res) => {
-                console.log(res);
+            .then(() => {
                 setUser({email})
                 localStorage.setItem("user", email)
                 navigate("/", {replace: true})
             })
-            .catch(err => console.log(err))
+            .catch(err => err)
             .finally(() => setActive(false))
     }
 

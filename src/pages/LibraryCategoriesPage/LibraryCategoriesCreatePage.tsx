@@ -23,7 +23,7 @@ const LibraryCategoriesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({
                     navigate("/library-categories", {replace: true})
                     return res
                 })
-                .catch(err => console.log(err))
+                .catch(err => err)
                 .finally(() => setActive(false))
         }
         else {

@@ -25,7 +25,7 @@ const SettingsCategoryCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({i
                     navigate("/settings-category", {replace: true})
                     return res
                 })
-                .catch(err => console.log(err))
+                .catch(err => err)
                 .finally(() => setActive(false))
         }
         else{

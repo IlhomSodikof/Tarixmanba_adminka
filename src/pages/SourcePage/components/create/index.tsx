@@ -153,7 +153,7 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
     const editInteractiveContent = (id: number, key: string, value: string | number | FileList | null) => {
         const result = [...interactiveContent]
 
-        if(key==="file" && value instanceof FileList){
+        if(key==="interive_file" && value instanceof FileList){
             // if(typeof value !== FileList) return
             const reader: FileReader = new FileReader();
             reader.onloadend = () => {

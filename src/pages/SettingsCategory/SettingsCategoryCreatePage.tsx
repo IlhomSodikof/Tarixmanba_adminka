@@ -44,7 +44,7 @@ const SettingsCategoryCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({i
         <Box>
             <Typography sx={{marginBottom: "10px"}}><span style={{color: "red"}}>*</span> Title</Typography>
             <UIInput updateValue={(e) => setTitle(e)} defaultValue={title} />
-            <Button variant="contained" disabled={active} sx={{marginTop: "20px"}} onClick={handleSubmit}>{isEdit ? "Update" : "Create"}</Button>
+            <Button variant="contained" disabled={active} sx={{marginTop: "20px"}} onClick={handleSubmit}>{isEdit ? "Edit" : "Create"}</Button>
         </Box>
     )
 }

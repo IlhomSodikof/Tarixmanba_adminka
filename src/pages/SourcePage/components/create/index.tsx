@@ -75,13 +75,13 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
     const [contents, setContents] = useState<{[x: string]: string | number}[]>(data?.contents_list || [{id: Date.now(), contents_title: "", sequence: 1, contents_description: ""}])
     const [interactiveContent, setInteractiveContent] = useState<{[x: string]: string | number | FileList | null}[]>(data?.interive_list || [{
         id: Date.now(), 
-        item: "file", 
-        title: "", 
-        sequence: 1, 
-        file: null, 
-        link: "", 
-        latitude: "", 
-        longitude: ""
+        interive_item: "file", 
+        interive_title: "", 
+        interive_sequence: 1, 
+        interive_file: null, 
+        interive_link: "", 
+        interive_latitude: "", 
+        interive_longitude: ""
     }])
 
     useEffect(() => {
@@ -165,11 +165,11 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
             console.log("go", reader.result);
         }
 
-        if(key === "item" && typeof value === "string") {
+        if(key === "interive_item" && typeof value === "string") {
             result[id] = {
                 ...interactiveContent[id],
                 [key]: itemType[value],
-                "status": value
+                "interive_status": value
             }
         }else {
             result[id] = {
@@ -362,6 +362,7 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
 
             <Typography sx={{margin: "15px 0 5px"}}><span style={{color: "red"}}>*</span> Interactive Content</Typography>
             {interactiveContent.map((interive: any, id: number) => {
+                console.log(interive);
                 return (
                     <Box key={interive.id}>
                         <Stack direction={"row"} gap={2} sx={{margin: "10px 0"}}>  

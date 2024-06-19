@@ -117,7 +117,7 @@ const LibrariesCreatePage: React.FC<props> = ({isEdit, data}) => {
                     <Typography sx={{margin: "15px 0 5px"}}>Click to upload an file</Typography>
                     <UIFile fileChange={e => setFile(e)} id="2" defaultFile={data?.file} />
 
-                    <Button onClick={handleSubmit} disabled={active} variant="contained" sx={{marginTop: "20px"}}>{isEdit ? "Update" : "Create"}</Button>
+                    <Button onClick={handleSubmit} disabled={active} variant="contained" sx={{marginTop: "20px"}}>{isEdit ? "Edit" : "Create"}</Button>
                 </Box>
                     
             )}

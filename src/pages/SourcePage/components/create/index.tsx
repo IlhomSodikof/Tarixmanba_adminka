@@ -4,7 +4,7 @@ import { Box, Button, Stack, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 // ui-components
 import UISelect from "../../../../ui-components/input/select"
-// import {UITinyMCE} from "../../../ui-components/input/tinymce"
+import {UITinyMCE} from "../../../../ui-components/input/tinymce"
 import UIInput from "../../../../ui-components/input/input"
 import UIFile from "../../../../ui-components/input/file"
 // types
@@ -318,7 +318,8 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
             <UIFile fileChange={(e) => e && setImage(e[0])} defaultFile={data?.image} id="one"/>
 
             <Typography sx={{margin: "20px 0 10px"}}>Content</Typography>
-            <UIInput updateValue={(e) => setContent(e)} defaultValue={content} />
+            <UITinyMCE updateMCE={(e) => setContent(e)} defaultValue={content} />
+            {/* <UIInput updateValue={(e) => setContent(e)} defaultValue={content} /> */}
 
             <Typography sx={{margin: "20px 0 10px"}}>Statehood</Typography>
             <UISwitch value={statehood} changeValue={(e) => setStatehood(e)} />
@@ -366,7 +367,6 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
 
             <Typography sx={{margin: "15px 0 5px"}}><span style={{color: "red"}}>*</span> Interactive Content</Typography>
             {interactiveContent.map((interive: any, id: number) => {
-                console.log(interive);
                 return (
                     <Box key={interive.id}>
                         <Stack direction={"row"} gap={2} sx={{margin: "10px 0"}}>  

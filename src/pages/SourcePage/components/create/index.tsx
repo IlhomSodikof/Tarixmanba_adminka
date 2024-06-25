@@ -353,7 +353,7 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
                             <UIInput updateValue={(e) => editContent(id, "contents_title", e)} defaultValue={attribute.contents_title} placeholder="Title" />
                             <UIInput type="number" fullWidth={false} updateValue={(e) => editContent(id, "sequence", e)} placeholder="Sequence" defaultValue={attribute.sequence} /> 
                         </Stack>
-                        <UIInput updateValue={(e) => editContent(id, "contents_description", e)} defaultValue={attribute.contents_description} placeholder="" />
+                        <UITinyMCE updateMCE={(e) => editContent(id, "contents_description", e)} defaultValue={attribute.contents_description} />
                         {contents.length > 1 && (<Button variant="contained" onClick={() => deleteContent(id)}>Delete</Button>)}                        
                     </Box>
                 )

@@ -27,7 +27,7 @@ export const UITinyMCE: React.FC<props> = ({updateMCE, defaultValue}) => {
                 ref={editor}
                 value={content}
                 config={config}
-                onChange={(newContent) => update(newContent)}
+                onBlur={(newContent) => update(newContent)}
             />
         </Box>
     );

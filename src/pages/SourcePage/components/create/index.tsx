@@ -1,5 +1,5 @@
 // mui
-import { Box, Button, Stack, Typography } from "@mui/material"
+import { Alert, Box, Button, Snackbar, Stack, Typography } from "@mui/material"
 // react
 import { useEffect, useState } from "react"
 // ui-components
@@ -17,11 +17,12 @@ import { useNavigate } from "react-router-dom"
 import { updateSingleData } from "../../../../api/apiUpdateCalls"
 import { getImageAsFile } from "../../../../utils/getImage"
 import { ImageToBase64 } from "../../../../utils/imageToBase64"
+import UIAnotherSelect from "../../../../ui-components/input/anotherInput"
 
 interface IResult {
     category: string,
     filter_category: string,
-    filters: string,
+    filters: string[],
     period_filter: string,
     title: string,
     image: string | null,
@@ -41,8 +42,6 @@ interface IResult {
 }
 
 const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) => {
-    console.log(data);
-    
     const navigate = useNavigate()
 
     const interiveType = [
@@ -65,7 +64,7 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
 
     const [category, setCategory] = useState<{[x: string]: string}>({id: data?.category, value: data?.cat_name})
     const [filterCategory, setFilterCategory] = useState<{[x: string]: string}>({id: data?.filter_category, value: data?.filter_category_name})
-    const [filter, setFilter] = useState<{[x: string]: string}>({id: data?.filters, value: data?.filters_name})
+    const [filter, setFilter] = useState<{[x: string]: string}[]>([{id: data?.filters, value: data?.filters_name}])
     const [periodFilter, setPeriodFilter] = useState<{[x: string]: string}>({id: data?.period_filter, value: data?.period_filter_name})
     const [title, setTitle] = useState<string>(data?.title || "")
     const [image, setImage] = useState<File | null>(null)
@@ -85,6 +84,9 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
         interive_latitude: "", 
         interive_longitude: ""
     }])
+
+    const [error, setError] = useState<{[x:string]: string}>({})
+    const [open, setOpen] = useState<boolean>(false)
 
     useEffect(() => {
         async function fetchImage() {
@@ -137,6 +139,8 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
     }
 
     const addInteractiveContent = () => {
+        console.log();
+        
         let result = [...interactiveContent, {
             id: Date.now(), 
             interive_item: "file", 
@@ -162,9 +166,7 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
                     [key]: reader.result as string
                 }
             };
-            console.log(value);
             reader.readAsDataURL(value[0]);
-            console.log("go", reader.result);
         }
 
         if(key === "interive_item" && typeof value === "string") {
@@ -179,7 +181,6 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
                 [key]: value
             }
         }
-        console.log(key, value, result);
         setInteractiveContent(result)
     }
 
@@ -219,9 +220,9 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
     const allProvince = getAllFilteredLists({data: allProvinceList})
 
     const handleSubmit = async () => {
-        if(!category || !filterCategory || !filter || !periodFilter || !title) {
-            return
-        }
+        // if(!category || !filterCategory || !filter || !periodFilter || !title) {
+        //     return
+        // }
 
         setActive(true)
 
@@ -239,7 +240,7 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
         const result: IResult = {
             category: category?.id+"",
             filter_category: filterCategory?.id+"",
-            filters: filter?.id+"",
+            filters: [],
             period_filter: periodFilter?.id+"",
             title,
             image: null,
@@ -258,18 +259,25 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
             longitude_list: interiveLongitude
         }
 
+        filter.map(fil => {
+            result.filters.push(fil?.id)
+        })
+
         if(interiveFiles.length > 0) result.interive_file_list = interiveFiles
 
         if(isEdit) {
-            // const res = await getImageAsFile(data?.image, data?.image)
             result.image = image && await ImageToBase64(image)
             
             updateSingleData("resource", data?.id, result)
                 .then(res => {
+                    console.log(result);
                     navigate("/sources", {replace: true})
                     return res
                 })
-                .catch(err => console.log(err, result))
+                .catch(err => {
+                    console.log(err);
+                    setError(err)
+                })
                 .finally(() => {
                     setActive(false)
                 })
@@ -281,7 +289,10 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
                     navigate("/sources", {replace: true})
                     console.log(res, result)
                 })
-                .catch(err => console.log(err, result))
+                .catch(err => {
+                    console.log(err);
+                    setError(err)
+                })
                 .finally(() => {
                     console.log("it should be working", result)
                     setActive(false)
@@ -292,20 +303,32 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
     
     return (
         <Box>
+            <Snackbar
+                open={open}
+                autoHideDuration={3000}
+                onClose={() => setOpen(false)}
+            >
+                <Alert
+                    severity="error"
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >{error.code} - {error.code}</Alert>    
+            </Snackbar>
             <Typography sx={{marginBottom: "10px"}}>Filter {category && category.value}</Typography>
             <UISelect options={allCategories} placeholder="Select a category" defaultValue={category} updateValue={(e) => {
                 setCategory(e)
                 setFilterCategory({id: "", value: ""})
-                setFilter({id: "", value: ""})
+                setFilter([{id: "", value: ""}])
             }} />
             <Stack direction={"row"} gap={5} sx={{
                 margin: "20px 0"
             }}>
                 <UISelect disabled={Boolean(category)} options={allFilterCategoriesList} defaultValue={filterCategory} placeholder="Select a filter category" updateValue={(e) => {
                     setFilterCategory(e)
-                    setFilter({id: "", value: ""})
+                    setFilter([{id: "", value: ""}])
                 }} />
-                <UISelect disabled={Boolean(category) && Boolean(filterCategory)} options={allFiltersList} defaultValue={filter} placeholder="Select a filter" updateValue={(e) => setFilter(e)} />
+
+                <UIAnotherSelect disabled={false} options={allFiltersList} defaultValue={filter} placeholder="Select a filter" updateValue={(e) => setFilter(e)} />
             </Stack>
             
             <Typography sx={{margin: "15px 0 5px"}}><span style={{color: "red"}}>*</span> Select period filter</Typography>

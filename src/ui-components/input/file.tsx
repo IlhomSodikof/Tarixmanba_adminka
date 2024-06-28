@@ -19,8 +19,9 @@ const UIFile: React.FC<props> = ({fileChange, defaultFile, id}) => {
     return (
         <Box sx={{width: "100%"}}>
             <input 
-                accept="image/*"
+                accept="image/*,audio/*"
                 type="file"
+                required
                 onChange={handleChange}
                 id={id ? `input-file-${id}`: "input-file"}
                 style={{

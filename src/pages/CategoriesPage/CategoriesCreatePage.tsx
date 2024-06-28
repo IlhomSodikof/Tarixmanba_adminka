@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material"
+import { Alert, Box, Button, Snackbar, Typography } from "@mui/material"
 import UIInput from "../../ui-components/input/input"
 import UIFile from "../../ui-components/input/file"
 import UISwitch from "../../ui-components/input/switch"
@@ -15,10 +15,16 @@ const CategoriesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit,
     const [interactive, setInteractive] = useState<boolean>(data?.interactive || false)
     const [active, setActive] = useState<boolean>(false)
 
+    const [error, setError] = useState<{[x: string]: string} | null>(null)
+    const [open, setOpen] = useState<boolean>(false)
+
+    const [fillError, setFillError] = useState<string>("")
+
     const navigate = useNavigate()
 
     const handleSubmit = async () => {
         if(!isEdit && !icon || !title || !order) {
+            setFillError("Please fill all the required fields")
             return
         }
 
@@ -38,10 +44,14 @@ const CategoriesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit,
         if(isEdit) {
             updateSingleData("category", data?.id, form, true)
                 .then(res => {
+                    console.log(res);
                     navigate("/categories", {replace: true})
                     return res
                 })
-                .catch(err => err)
+                .catch(err => {
+                    setOpen(true)
+                    setError(err)
+                })
                 .finally(() => {
                     setActive(false)
                 })
@@ -51,7 +61,10 @@ const CategoriesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit,
                     navigate("/categories", {replace: true})
                     return res
                 })
-                .catch(err => err)
+                .catch(err => {
+                    setOpen(true)
+                    setError(err)
+                })
                 .finally(() => {
                     setActive(false)
                 })
@@ -60,6 +73,17 @@ const CategoriesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit,
 
     return (
         <Box>
+            <Snackbar
+                open={open}
+                autoHideDuration={3000}
+                onClose={() => setOpen(false)}
+            >
+                <Alert
+                    severity="error"
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >{error?.message}</Alert>
+            </Snackbar>
             <Typography sx={{margin: "10px 0"}}><span style={{color: "red"}}>*</span> Title</Typography>
             <UIInput updateValue={(e) => setTitle(e)} defaultValue={title} />
             <Typography sx={{marginBottom: "20px"}}></Typography>
@@ -70,6 +94,7 @@ const CategoriesCreatePage: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit,
             <UISwitch value={interactive} changeValue={(e) => setInteractive(e)} />
 
             <Button variant="contained" disabled={active} onClick={handleSubmit} sx={{marginTop: "20px"}}>{isEdit ? "Edit" : "Create"}</Button>
+            {fillError && <Alert severity="error" sx={{margin: "20px 0"}}>{fillError}</Alert>}
         </Box>
     )
 }

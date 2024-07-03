@@ -33,12 +33,7 @@ interface IResult {
     attributes_description_list: any[],
     contents_title_list: any[],
     contents_description_list: any[],
-    interive_title_list: any[],
-    status_list: any[],
-    interive_file_list: any[],
-    link_list: any[],
-    latitude_list: any[],
-    longitude_list: any[]
+    interive_list: {[x: string]: any}[]
 }
 
 const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) => {
@@ -64,7 +59,7 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
 
     const [category, setCategory] = useState<{[x: string]: string}>({id: data?.category, value: data?.cat_name})
     const [filterCategory, setFilterCategory] = useState<{[x: string]: string}>({id: data?.filter_category, value: data?.filter_category_name})
-    const [filter, setFilter] = useState<{[x: string]: string}[]>([{id: data?.filters, value: data?.filters_name}])
+    const [filter, setFilter] = useState<{[x: string]: string}[]>([{id: data?.filters, value: data?.filters_name}] || [])
     const [periodFilter, setPeriodFilter] = useState<{[x: string]: string}>({id: data?.period_filter, value: data?.period_filter_name})
     const [title, setTitle] = useState<string>(data?.title || "")
     const [image, setImage] = useState<File | null>(null)
@@ -80,9 +75,9 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
         interive_title: "", 
         interive_sequence: 1, 
         interive_file: null, 
-        interive_link: "", 
-        interive_latitude: "", 
-        interive_longitude: ""
+        interive_link: null, 
+        interive_latitude: null, 
+        interive_longitude: null
     }])
 
     const [error, setError] = useState<{[x:string]: string}>({})
@@ -139,17 +134,15 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
     }
 
     const addInteractiveContent = () => {
-        console.log();
-        
         let result = [...interactiveContent, {
             id: Date.now(), 
             interive_item: "file", 
             interive_title: "", 
             interive_sequence: 1, 
             interive_file: null, 
-            interive_link: "", 
-            interive_latitude: "", 
-            interive_longitude: ""
+            interive_link: null, 
+            interive_latitude: null, 
+            interive_longitude: null
         }]
         setInteractiveContent(result)
     }
@@ -230,12 +223,6 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
         const attributesDescriptions = divideToLists({data: attributes, key: "attributes_description"})
         const contentTitles = divideToLists({data: contents, key: "contents_title"})
         const contentDescriptions = divideToLists({data: contents, key: "contents_description"})
-        const interiveTitles = divideToLists({data: interactiveContent, key: "interive_title"})
-        const interiveStatus = divideToLists({data: interactiveContent, key: "interive_status"})
-        const interiveFiles = divideToLists({data: interactiveContent, key: "interive_file"})
-        const interiveLinks = divideToLists({data: interactiveContent, key: "interive_link"})
-        const interiveLatitudes = divideToLists({data: interactiveContent, key: "interive_latitude"})
-        const interiveLongitude = divideToLists({data: interactiveContent, key: "interive_longitude"})
 
         const result: IResult = {
             category: category?.id+"",
@@ -251,19 +238,14 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
             attributes_description_list: attributesDescriptions,
             contents_title_list: contentTitles,
             contents_description_list: contentDescriptions,
-            interive_title_list: interiveTitles,
-            status_list: interiveStatus,
-            interive_file_list: [],
-            link_list: interiveLinks,
-            latitude_list: interiveLatitudes,
-            longitude_list: interiveLongitude
+            interive_list: interactiveContent
         }
 
         filter.map(fil => {
             result.filters.push(fil?.id)
         })
 
-        if(interiveFiles.length > 0) result.interive_file_list = interiveFiles
+        // if(interiveFiles.length > 0) result.interive_file_list = interiveFiles
 
         if(isEdit) {
             result.image = image && await ImageToBase64(image)

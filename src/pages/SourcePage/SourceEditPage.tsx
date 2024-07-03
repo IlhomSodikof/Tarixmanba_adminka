@@ -9,6 +9,8 @@ const SourceEditPage: React.FC = () => {
 
     const { data, loading } = useFetchGetSingleData("resource", id)
 
+    console.log(data);
+    
     if(loading) return <Loading />
     
     if(!data && !loading) return <h2>No data</h2>

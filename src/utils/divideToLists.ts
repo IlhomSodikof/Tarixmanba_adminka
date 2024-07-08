@@ -4,8 +4,6 @@ interface params {
 }
 
 export const divideToLists = ({data, key}: params) => {
-    console.log(data, key);
-    
     const result: string[] = []
     data.map(info => {
         if(key === "file" && !info[key]) {

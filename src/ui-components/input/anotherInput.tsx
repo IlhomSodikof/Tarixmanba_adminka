@@ -17,6 +17,8 @@ const UIAnotherSelect: React.FC<Props> = ({ options, defaultValue, placeholder, 
     }, [defaultValue]);
 
     const handleInput = (_event: any, value: {[x: string]: string}[]) => {
+        console.log("value: ", value, "default value: ", defaultValue);
+        
         setVal(value);
         updateValue(value);
     };

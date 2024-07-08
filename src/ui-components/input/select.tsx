@@ -22,7 +22,6 @@ const UISelect: React.FC<props> = ({options, defaultValue, placeholder, updateVa
             disabled={!disabled}
             onChange={handleInput}
             options={options}
-            // defaultValue={defaultValue}
             getOptionLabel={(option) => option.value}
             value={{value: val}}
             disableClearable

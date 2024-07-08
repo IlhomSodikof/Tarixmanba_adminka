@@ -22,7 +22,7 @@ import UIAnotherSelect from "../../../../ui-components/input/anotherInput"
 interface IResult {
     category: string,
     filter_category: string,
-    filters: string[],
+    filter_list: string[],
     period_filter: string,
     title: string,
     image: string | null,
@@ -59,7 +59,7 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
 
     const [category, setCategory] = useState<{[x: string]: string}>({id: data?.category, value: data?.cat_name})
     const [filterCategory, setFilterCategory] = useState<{[x: string]: string}>({id: data?.filter_category, value: data?.filter_category_name})
-    const [filter, setFilter] = useState<{[x: string]: string}[]>([{id: data?.filters, value: data?.filters_name}] || [])
+    const [filter, setFilter] = useState<{[x: string]: string}[]>(data?.filters && data?.filters_name && [{id: data?.filters, value: data?.filters_name}] || [])
     const [periodFilter, setPeriodFilter] = useState<{[x: string]: string}>({id: data?.period_filter, value: data?.period_filter_name})
     const [title, setTitle] = useState<string>(data?.title || "")
     const [image, setImage] = useState<File | null>(null)
@@ -82,6 +82,8 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
 
     const [error, setError] = useState<{[x:string]: string}>({})
     const [open, setOpen] = useState<boolean>(false)
+
+    const [fillError, setFillError] = useState<string>("")
 
     useEffect(() => {
         async function fetchImage() {
@@ -213,9 +215,10 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
     const allProvince = getAllFilteredLists({data: allProvinceList})
 
     const handleSubmit = async () => {
-        // if(!category || !filterCategory || !filter || !periodFilter || !title) {
-        //     return
-        // }
+        if(!title || !content) {
+            setFillError("Please fill all the required fields")
+            return
+        }
 
         setActive(true)
 
@@ -225,10 +228,10 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
         const contentDescriptions = divideToLists({data: contents, key: "contents_description"})
 
         const result: IResult = {
-            category: category?.id+"",
-            filter_category: filterCategory?.id+"",
-            filters: [],
-            period_filter: periodFilter?.id+"",
+            category: category?.id,
+            filter_category: filterCategory?.id,
+            filter_list: [],
+            period_filter: periodFilter?.id,
             title,
             image: null,
             content,
@@ -242,7 +245,8 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
         }
 
         filter.map(fil => {
-            result.filters.push(fil?.id)
+            result.filter_list.
+            push(fil?.id)
         })
 
         // if(interiveFiles.length > 0) result.interive_file_list = interiveFiles
@@ -257,7 +261,7 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
                     return res
                 })
                 .catch(err => {
-                    console.log(err);
+                    setOpen(true)
                     setError(err)
                 })
                 .finally(() => {
@@ -272,11 +276,11 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
                     console.log(res, result)
                 })
                 .catch(err => {
-                    console.log(err);
+                    setOpen(true)
                     setError(err)
+                    console.log(err);
                 })
                 .finally(() => {
-                    console.log("it should be working", result)
                     setActive(false)
                 })
         }
@@ -300,14 +304,14 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
             <UISelect options={allCategories} placeholder="Select a category" defaultValue={category} updateValue={(e) => {
                 setCategory(e)
                 setFilterCategory({id: "", value: ""})
-                setFilter([{id: "", value: ""}])
+                setFilter([])
             }} />
             <Stack direction={"row"} gap={5} sx={{
                 margin: "20px 0"
             }}>
                 <UISelect disabled={Boolean(category)} options={allFilterCategoriesList} defaultValue={filterCategory} placeholder="Select a filter category" updateValue={(e) => {
                     setFilterCategory(e)
-                    setFilter([{id: "", value: ""}])
+                    setFilter([])
                 }} />
 
                 <UIAnotherSelect disabled={false} options={allFiltersList} defaultValue={filter} placeholder="Select a filter" updateValue={(e) => setFilter(e)} />
@@ -359,7 +363,7 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
                             <UIInput type="number" fullWidth={false} updateValue={(e) => editContent(id, "sequence", e)} placeholder="Sequence" defaultValue={attribute.sequence} /> 
                         </Stack>
                         <UITinyMCE updateMCE={(e) => editContent(id, "contents_description", e)} defaultValue={attribute.contents_description} />
-                        {contents.length > 1 && (<Button variant="contained" onClick={() => deleteContent(id)}>Delete</Button>)}                        
+                        {contents.length > 1 && (<Button variant="contained" sx={{margin: "10px 0 20px"}} onClick={() => deleteContent(id)}>Delete</Button>)}                        
                     </Box>
                 )
             })}
@@ -399,6 +403,7 @@ const CreateField: React.FC<{isEdit?: boolean, data?: any}> = ({isEdit, data}) =
             >Add Interactive Content</Button>
 
             <Button variant="contained" disabled={active} onClick={handleSubmit} sx={{marginTop: "20px"}}>{isEdit ? "Edit" : "Create"}</Button>
+            {fillError && <Alert severity="error" sx={{margin: "20px 0"}}>{fillError}</Alert>}
         </Box>
     )
 }
